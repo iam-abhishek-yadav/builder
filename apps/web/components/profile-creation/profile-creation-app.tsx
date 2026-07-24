@@ -14,10 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  CreatorHubSidebar,
-  CreatorHubTopBar,
-} from "@/components/creator-hub/sidebar";
+import { CreatorHubHeader } from "@/components/creator-hub/header";
 import { cn } from "@/lib/utils";
 import {
   DEFAULT_PROFILE,
@@ -87,27 +84,24 @@ export function ProfileCreationApp() {
   }
 
   return (
-    <div className="flex min-h-dvh overflow-x-hidden bg-background text-foreground">
-      <CreatorHubSidebar active="profile" />
+    <div className="flex min-h-dvh flex-col overflow-x-hidden bg-background text-foreground">
+      <CreatorHubHeader
+        active="profile"
+        trailing={
+          <span className="text-xs font-medium text-muted-foreground sm:text-sm">
+            Step {step} of {TOTAL_STEPS}
+          </span>
+        }
+      />
 
-      <main className="relative min-h-dvh flex-1 md:ml-64">
-        <CreatorHubTopBar
-          active="profile"
-          title="Create Profile"
-          trailing={
-            <span className="text-xs font-medium text-muted-foreground sm:text-sm">
-              Step {step} of {TOTAL_STEPS}
-            </span>
-          }
-        />
-
+      <main className="relative min-h-0 flex-1">
         <div className="h-1 w-full bg-accent">
           <div
             className="h-full bg-primary transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="flex items-center justify-between border-b border-border px-4 py-2 text-xs text-muted-foreground md:hidden">
+        <div className="flex items-center justify-between border-b border-border px-4 py-2 text-xs text-muted-foreground sm:hidden">
           <span className="font-semibold text-foreground">{meta.title}</span>
           <span>
             Step {step} of {TOTAL_STEPS}

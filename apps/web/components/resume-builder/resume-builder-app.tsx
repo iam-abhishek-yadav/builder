@@ -19,10 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import {
-  CreatorHubSidebar,
-  CreatorHubTopBar,
-} from "@/components/creator-hub/sidebar";
+import { CreatorHubHeader } from "@/components/creator-hub/header";
 import { loadProfile } from "@/components/profile-creation/types";
 import { ResumePreview } from "./resume-preview";
 import { exportResumePdf } from "./export-resume-pdf";
@@ -217,44 +214,41 @@ export function ResumeBuilderApp() {
   }
 
   return (
-    <div className="flex h-dvh overflow-hidden bg-background text-foreground">
-      <CreatorHubSidebar active="resume" />
+    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
+      <div className="print:hidden">
+        <CreatorHubHeader
+          active="resume"
+          trailing={
+            <>
+              {saveMessage ? (
+                <span className="text-xs font-semibold text-primary">
+                  {saveMessage}
+                </span>
+              ) : null}
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => void exportPdf()}
+                disabled={exporting}
+                className="text-muted-foreground"
+              >
+                <Download />
+                <span className="hidden lg:inline">
+                  {exporting ? "Exporting…" : "Export PDF"}
+                </span>
+              </Button>
+              <Button type="button" variant="ghost" onClick={saveResume}>
+                <Save />
+                <span className="hidden lg:inline">Save</span>
+              </Button>
+            </>
+          }
+        />
+      </div>
 
-      <main className="flex h-dvh flex-1 flex-col overflow-hidden md:ml-64">
+      <main className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="print:hidden">
-          <CreatorHubTopBar
-            active="resume"
-            title="Resume Builder"
-            trailing={
-              <>
-                {saveMessage ? (
-                  <span className="text-xs font-semibold text-primary">
-                    {saveMessage}
-                  </span>
-                ) : null}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => void exportPdf()}
-                  disabled={exporting}
-                  className="text-muted-foreground"
-                >
-                  <Download />
-                  <span className="hidden lg:inline">
-                    {exporting ? "Exporting…" : "Export PDF"}
-                  </span>
-                </Button>
-                <Button type="button" variant="ghost" onClick={saveResume}>
-                  <Save />
-                  <span className="hidden lg:inline">Save</span>
-                </Button>
-              </>
-            }
-          />
           <div className="flex items-center gap-2 border-b border-border bg-background px-4 py-2 sm:px-8">
-            <span className="mr-1 hidden text-xs font-semibold text-muted-foreground sm:inline">
-              Template
-            </span>
             <div className="flex gap-1 rounded-full bg-accent p-1">
               {TEMPLATES.map((item) => {
                 const active = template === item.id;
@@ -496,11 +490,6 @@ export function ResumeBuilderApp() {
           </section>
 
           <section className="no-scrollbar flex flex-1 flex-col items-center overflow-y-auto bg-muted p-4 sm:p-8 print:bg-white print:p-0">
-            <div className="print:hidden mb-4 text-center">
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold tracking-wider text-primary uppercase">
-                WYSIWYG Preview
-              </span>
-            </div>
             <ResumePreview
               name={name}
               title={title}
