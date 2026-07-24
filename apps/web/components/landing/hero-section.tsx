@@ -40,7 +40,7 @@ export function HeroSection() {
             <Button
               size="lg"
               nativeButton={false}
-              render={<Link href="/resume-builder" />}
+              render={<Link href="/profile-creation" />}
               className="ambient-shadow h-12 px-8 text-sm"
             >
               Start Building Free

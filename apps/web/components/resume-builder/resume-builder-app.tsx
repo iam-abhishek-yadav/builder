@@ -20,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { CreatorHubSidebar } from "@/components/creator-hub/sidebar";
+import { loadProfile } from "@/components/profile-creation/types";
 import { ResumePreview } from "./resume-preview";
 import { exportResumePdf } from "./export-resume-pdf";
 import {
@@ -88,9 +90,33 @@ export function ResumeBuilderApp() {
       }
 
       const data = normalizeResumeData(saved);
-      setName(data.name);
-      setTitle(data.title);
-      setSections(data.sections);
+      const profile = loadProfile();
+
+      setName(data.name || profile.name || "");
+      setTitle(data.title || profile.title || "");
+      setSections(
+        data.sections.map((section) => {
+          if (
+            section.type === "summary" &&
+            profile.bio &&
+            !section.entries[0]?.description?.trim()
+          ) {
+            return {
+              ...section,
+              entries: [
+                {
+                  ...section.entries[0],
+                  id: section.entries[0]?.id ?? `${Date.now()}`,
+                  primary: section.entries[0]?.primary ?? "",
+                  secondary: section.entries[0]?.secondary ?? "",
+                  description: profile.bio,
+                },
+              ],
+            };
+          }
+          return section;
+        }),
+      );
 
       const fromUrl = searchParams.get("template");
       if (isResumeTemplate(fromUrl)) {
@@ -190,32 +216,7 @@ export function ResumeBuilderApp() {
 
   return (
     <div className="flex h-dvh overflow-hidden bg-background text-foreground">
-      <aside className="print:hidden fixed top-0 left-0 z-50 hidden h-dvh w-64 flex-col border-r border-border bg-muted py-8 md:flex">
-        <div className="mb-10 px-6">
-          <Link
-            href="/"
-            className="font-display text-xl font-bold tracking-tight text-foreground"
-          >
-            Creator Hub
-          </Link>
-        </div>
-        <nav className="flex-1 space-y-1 px-2">
-          <Link
-            href="/#features"
-            className="flex items-center gap-3 rounded-lg px-4 py-3 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          >
-            <User className="size-5" />
-            <span className="text-sm font-semibold">Home</span>
-          </Link>
-          <Link
-            href="/resume-builder"
-            className="flex items-center gap-3 rounded-lg bg-primary px-4 py-3 text-primary-foreground shadow-sm"
-          >
-            <FileText className="size-5" />
-            <span className="text-sm font-semibold">Resume</span>
-          </Link>
-        </nav>
-      </aside>
+      <CreatorHubSidebar active="resume" />
 
       <main className="flex h-dvh flex-1 flex-col overflow-hidden md:ml-64">
         <header className="print:hidden flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:h-20 sm:px-8">
@@ -229,7 +230,7 @@ export function ResumeBuilderApp() {
               </Link>
             </div>
             <h1 className="font-display hidden text-xl font-semibold sm:block md:text-2xl">
-              <Link href="/" className="hover:text-primary">
+              <Link href="/profile-creation" className="hover:text-primary">
                 Resume Builder
               </Link>
             </h1>

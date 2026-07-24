@@ -63,7 +63,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
               <Reveal className="md:col-span-8">
-                <Link href="/resume-builder" className="block h-full">
+                <Link href="/profile-creation" className="block h-full">
                   <Card className="feature-tile ambient-shadow h-full ring-border/60">
                     <CardContent className="flex flex-col gap-8 p-6 md:flex-row md:items-center md:gap-10 md:p-8">
                       <div className="md:w-1/2">
@@ -224,7 +224,7 @@ export default function Home() {
                 Company
               </span>
               <Link
-                href="/resume-builder"
+                href="/profile-creation"
                 className="text-xs text-muted-foreground hover:text-primary"
               >
                 Get started

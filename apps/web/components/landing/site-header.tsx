@@ -47,7 +47,7 @@ export function SiteHeader() {
           />
           <Button
             nativeButton={false}
-            render={<Link href="/resume-builder" />}
+            render={<Link href="/profile-creation" />}
             className="ambient-shadow"
           >
             Get Started
