@@ -5,7 +5,7 @@ npm workspaces + Turborepo monorepo.
 ## Requirements
 
 - Node.js >= 18
-- npm 11.6.2 (see `devEngines` in root `package.json`)
+- npm 10+ (CI uses npm 11)
 
 ## Setup
 
