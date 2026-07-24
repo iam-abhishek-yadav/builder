@@ -48,7 +48,7 @@ export default function Home() {
           className="bg-muted py-16 md:py-24"
           aria-labelledby="features-heading"
         >
-          <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-7xl px-4 sm:px-8">
             <Reveal className="mb-12 text-center md:mb-16">
               <h2
                 id="features-heading"
@@ -144,7 +144,7 @@ export default function Home() {
           className="bg-accent py-16 md:py-24"
           aria-labelledby="love-heading"
         >
-          <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-7xl px-4 sm:px-8">
             <Reveal>
               <h2
                 id="love-heading"
@@ -191,7 +191,7 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-border bg-[#d3e4fe]">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-10 px-6 py-16 md:flex-row">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-10 px-4 py-16 sm:px-8 md:flex-row">
           <div className="flex max-w-xs flex-col gap-3">
             <span className="font-display text-2xl font-bold text-foreground">
               Builder
@@ -261,7 +261,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="mx-auto flex w-full max-w-7xl items-center border-t border-border px-6 py-6 text-muted-foreground">
+        <div className="mx-auto flex w-full max-w-7xl items-center border-t border-border px-4 py-6 text-muted-foreground sm:px-8">
           <span className="text-sm">
             © {new Date().getFullYear()} Builder. All rights reserved.
           </span>

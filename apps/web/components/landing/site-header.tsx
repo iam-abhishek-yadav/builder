@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center border-b border-border/60 bg-background/90 backdrop-blur-md md:h-20">
-      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-8">
         <div className="flex items-center gap-8">
           <Link
             href="/"

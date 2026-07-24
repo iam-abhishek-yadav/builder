@@ -20,7 +20,7 @@ export function ResumePreview({
     <article
       id="resume-preview"
       className={cn(
-        "resume-shadow w-full max-w-[700px] bg-white p-8 text-[#0b1c30] transition-all duration-500 sm:min-h-[990px] sm:p-12",
+        "resume-shadow w-full max-w-[700px] origin-top bg-white p-8 text-[#0b1c30] transition-all duration-500 sm:min-h-[990px] sm:scale-[0.92] sm:p-12 xl:scale-100 print:scale-100",
         `template-${template}`,
         className,
       )}

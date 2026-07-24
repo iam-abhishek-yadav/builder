@@ -19,7 +19,7 @@ export function HeroSection() {
         <div className="hero-wash absolute inset-0" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-20 pb-16 md:pb-24">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-20 pb-16 sm:px-8 md:pb-24">
         <div className="max-w-2xl">
           <p className="font-display animate-fade-up mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             Builder

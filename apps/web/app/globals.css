@@ -191,8 +191,25 @@
   display: none;
 }
 
+.resume-stage {
+  background:
+    radial-gradient(
+      1200px 600px at 70% -10%,
+      rgb(26 86 219 / 0.1),
+      transparent 55%
+    ),
+    radial-gradient(
+      900px 500px at 10% 100%,
+      rgb(214 226 255 / 0.55),
+      transparent 50%
+    ),
+    linear-gradient(180deg, #eef3ff 0%, #f8f9ff 48%, #eef2fa 100%);
+}
+
 .resume-shadow {
-  box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 1px 2px rgb(19 27 46 / 0.04),
+    0 18px 40px rgb(19 27 46 / 0.1);
 }
 
 .template-modern .preview-header {
