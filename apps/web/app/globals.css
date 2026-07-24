@@ -1,26 +1,279 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* Brand + shadcn semantic tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9ff;
+  --foreground: #0b1c30;
+  --card: #ffffff;
+  --card-foreground: #0b1c30;
+  --popover: #ffffff;
+  --popover-foreground: #0b1c30;
+  --primary: #1a56db;
+  --primary-foreground: #ffffff;
+  --secondary: #d6e2ff;
+  --secondary-foreground: #0b1c30;
+  --muted: #eff4ff;
+  --muted-foreground: #45464d;
+  --accent: #e5eeff;
+  --accent-foreground: #0b1c30;
+  --destructive: #ba1a1a;
+  --border: #c6c6cd;
+  --input: #c6c6cd;
+  --ring: #1a56db;
+  --chart-1: #1a56db;
+  --chart-2: #4568c7;
+  --chart-3: #6b7fb0;
+  --chart-4: #0b1c30;
+  --chart-5: #d3e4fe;
+  --radius: 0.625rem;
+  --sidebar: #f8f9ff;
+  --sidebar-foreground: #0b1c30;
+  --sidebar-primary: #1a56db;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eff4ff;
+  --sidebar-accent-foreground: #0b1c30;
+  --sidebar-border: #c6c6cd;
+  --sidebar-ring: #1a56db;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-source-serif), ui-serif, Georgia, serif;
+  --font-display: var(--font-source-serif), ui-serif, Georgia, serif;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Landing-only helpers */
+.hero-wash {
+  background:
+    linear-gradient(
+      100deg,
+      rgb(248 249 255) 0%,
+      rgb(248 249 255 / 0.96) 28%,
+      rgb(248 249 255 / 0.72) 48%,
+      rgb(248 249 255 / 0.28) 68%,
+      rgb(248 249 255 / 0.08) 100%
+    );
+}
+
+@media (max-width: 1023px) {
+  .hero-wash {
+    background: linear-gradient(
+      180deg,
+      rgb(248 249 255 / 0.97) 0%,
+      rgb(248 249 255 / 0.9) 42%,
+      rgb(248 249 255 / 0.78) 100%
+    );
+  }
+}
+
+.ambient-shadow {
+  box-shadow: 0 4px 12px rgb(19 27 46 / 0.08);
+}
+
+.feature-tile {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.feature-tile:hover {
+  box-shadow: 0 12px 24px rgb(19 27 46 / 0.12);
+  transform: translateY(-2px);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out both;
+}
+
+.animate-fade-up-delay {
+  animation: fade-up 0.8s ease-out 0.15s both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-up-delay,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Resume builder */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.resume-shadow {
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+}
+
+.template-modern .preview-header {
+  margin: -2rem -2rem 2rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background: #1a56db;
+  padding: 2.5rem;
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .template-modern .preview-header {
+    margin: -3rem -3rem 2rem;
+  }
+}
+
+.template-modern .preview-header h1 {
+  color: #ffffff;
+}
+
+.template-modern .preview-header p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.template-minimal {
+  font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+}
+
+.template-minimal .preview-header {
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #0b1c30;
+  padding-bottom: 1rem;
+  text-align: center;
+}
+
+.template-minimal .preview-header h1 {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.template-minimal .preview-header p {
+  color: #45464d;
+}
+
+.template-executive .preview-header {
+  border-left: 8px solid #1a56db;
+  padding-left: 1.5rem;
+}
+
+@media print {
+  @page {
+    size: Letter;
+    margin: 0.6in;
+  }
+
+  body.is-printing-resume {
+    background: white !important;
+  }
+
+  body.is-printing-resume * {
+    visibility: hidden !important;
+  }
+
+  body.is-printing-resume #resume-preview,
+  body.is-printing-resume #resume-preview * {
+    visibility: visible !important;
+  }
+
+  body.is-printing-resume #resume-preview {
+    position: absolute !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.is-printing-resume .print-hidden,
+  body.is-printing-resume .print\:hidden {
+    display: none !important;
+  }
 }
