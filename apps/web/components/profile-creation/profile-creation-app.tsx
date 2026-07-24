@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -15,7 +14,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CreatorHubSidebar } from "@/components/creator-hub/sidebar";
+import {
+  CreatorHubSidebar,
+  CreatorHubTopBar,
+} from "@/components/creator-hub/sidebar";
 import { cn } from "@/lib/utils";
 import {
   DEFAULT_PROFILE,
@@ -89,31 +91,27 @@ export function ProfileCreationApp() {
       <CreatorHubSidebar active="profile" />
 
       <main className="relative min-h-dvh flex-1 md:ml-64">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur sm:h-20 sm:px-8">
-          <Link
-            href="/"
-            className="font-display text-xl font-bold tracking-tight text-foreground sm:text-2xl"
-          >
-            Builder
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/resume-builder"
-              className="text-sm font-semibold text-muted-foreground hover:text-primary md:hidden"
-            >
-              Resume
-            </Link>
+        <CreatorHubTopBar
+          active="profile"
+          title="Create Profile"
+          trailing={
             <span className="text-xs font-medium text-muted-foreground sm:text-sm">
               Step {step} of {TOTAL_STEPS}
             </span>
-          </div>
-        </header>
+          }
+        />
 
         <div className="h-1 w-full bg-accent">
           <div
             className="h-full bg-primary transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
+        </div>
+        <div className="flex items-center justify-between border-b border-border px-4 py-2 text-xs text-muted-foreground md:hidden">
+          <span className="font-semibold text-foreground">{meta.title}</span>
+          <span>
+            Step {step} of {TOTAL_STEPS}
+          </span>
         </div>
 
         <div className="mx-auto max-w-4xl px-4 py-10 sm:px-8 sm:py-12">

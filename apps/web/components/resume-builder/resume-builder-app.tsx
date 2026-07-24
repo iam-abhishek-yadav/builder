@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
   Download,
@@ -20,7 +19,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { CreatorHubSidebar } from "@/components/creator-hub/sidebar";
+import {
+  CreatorHubSidebar,
+  CreatorHubTopBar,
+} from "@/components/creator-hub/sidebar";
 import { loadProfile } from "@/components/profile-creation/types";
 import { ResumePreview } from "./resume-preview";
 import { exportResumePdf } from "./export-resume-pdf";
@@ -219,21 +221,40 @@ export function ResumeBuilderApp() {
       <CreatorHubSidebar active="resume" />
 
       <main className="flex h-dvh flex-1 flex-col overflow-hidden md:ml-64">
-        <header className="print:hidden flex h-16 shrink-0 items-center justify-between gap-4 border-b border-border bg-background px-4 sm:h-20 sm:px-8">
-          <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-8">
-            <div className="flex items-center gap-3 md:hidden">
-              <Link
-                href="/"
-                className="font-display text-lg font-bold text-foreground"
-              >
-                Builder
-              </Link>
-            </div>
-            <h1 className="font-display hidden text-xl font-semibold sm:block md:text-2xl">
-              <Link href="/profile-creation" className="hover:text-primary">
-                Resume Builder
-              </Link>
-            </h1>
+        <div className="print:hidden">
+          <CreatorHubTopBar
+            active="resume"
+            title="Resume Builder"
+            trailing={
+              <>
+                {saveMessage ? (
+                  <span className="text-xs font-semibold text-primary">
+                    {saveMessage}
+                  </span>
+                ) : null}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => void exportPdf()}
+                  disabled={exporting}
+                  className="text-muted-foreground"
+                >
+                  <Download />
+                  <span className="hidden lg:inline">
+                    {exporting ? "Exporting…" : "Export PDF"}
+                  </span>
+                </Button>
+                <Button type="button" variant="ghost" onClick={saveResume}>
+                  <Save />
+                  <span className="hidden lg:inline">Save</span>
+                </Button>
+              </>
+            }
+          />
+          <div className="flex items-center gap-2 border-b border-border bg-background px-4 py-2 sm:px-8">
+            <span className="mr-1 hidden text-xs font-semibold text-muted-foreground sm:inline">
+              Template
+            </span>
             <div className="flex gap-1 rounded-full bg-accent p-1">
               {TEMPLATES.map((item) => {
                 const active = template === item.id;
@@ -254,31 +275,29 @@ export function ResumeBuilderApp() {
                 );
               })}
             </div>
+            <div className="ml-auto flex items-center gap-1 sm:hidden">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => void exportPdf()}
+                disabled={exporting}
+                aria-label="Export PDF"
+              >
+                <Download />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={saveResume}
+                aria-label="Save"
+              >
+                <Save />
+              </Button>
+            </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-            {saveMessage ? (
-              <span className="hidden text-xs font-semibold text-primary sm:inline">
-                {saveMessage}
-              </span>
-            ) : null}
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => void exportPdf()}
-              disabled={exporting}
-              className="text-muted-foreground"
-            >
-              <Download />
-              <span className="hidden sm:inline">
-                {exporting ? "Exporting…" : "Export PDF"}
-              </span>
-            </Button>
-            <Button type="button" variant="ghost" onClick={saveResume}>
-              <Save />
-              <span className="hidden sm:inline">Save</span>
-            </Button>
-          </div>
-        </header>
+        </div>
 
         <div className="flex flex-1 overflow-hidden">
           <section className="print:hidden no-scrollbar w-full shrink-0 space-y-8 overflow-y-auto border-r border-border bg-background p-4 sm:p-8 lg:w-[480px]">

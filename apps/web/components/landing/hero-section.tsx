@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AiCareerDialog } from "@/components/landing/ai-career-dialog";
 
 export function HeroSection() {
   return (
@@ -36,7 +34,7 @@ export function HeroSection() {
             Profiles, resumes, and portfolios that help you land the role you
             want—built for modern professionals.
           </p>
-          <div className="animate-fade-up-delay flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="animate-fade-up-delay">
             <Button
               size="lg"
               nativeButton={false}
@@ -45,18 +43,6 @@ export function HeroSection() {
             >
               Start Building Free
             </Button>
-            <AiCareerDialog
-              trigger={
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-12 border-primary px-8 text-sm text-primary"
-                >
-                  <Brain />
-                  AI Career Advice
-                </Button>
-              }
-            />
           </div>
         </div>
       </div>

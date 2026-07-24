@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { AiCareerDialog } from "@/components/landing/ai-career-dialog";
 
 export function SiteHeader() {
   return (
@@ -23,28 +22,21 @@ export function SiteHeader() {
               Features
             </Link>
             <Link
+              href="/profile-creation"
+              className="text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
+            >
+              Profile
+            </Link>
+            <Link
               href="/resume-builder"
               className="text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
-              Resume Builder
+              Resume
             </Link>
           </div>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button variant="ghost" className="text-primary hover:text-primary">
-            Log In
-          </Button>
-          <AiCareerDialog
-            trigger={
-              <Button
-                variant="outline"
-                className="hidden border-primary/30 text-primary sm:inline-flex"
-              >
-                AI Advice
-              </Button>
-            }
-          />
           <Button
             nativeButton={false}
             render={<Link href="/profile-creation" />}

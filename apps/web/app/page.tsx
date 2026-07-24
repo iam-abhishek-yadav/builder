@@ -201,7 +201,7 @@ export default function Home() {
               leaders.
             </p>
           </div>
-          <div className="grid flex-1 grid-cols-2 gap-10 md:ml-20 md:max-w-md">
+          <div className="grid flex-1 grid-cols-2 gap-10 md:ml-20 md:max-w-lg md:grid-cols-3">
             <div className="flex flex-col gap-2">
               <span className="mb-1 text-sm font-semibold text-foreground">
                 Product
@@ -213,10 +213,33 @@ export default function Home() {
                 Features
               </Link>
               <Link
+                href="/profile-creation"
+                className="text-xs text-muted-foreground hover:text-primary"
+              >
+                Profile
+              </Link>
+              <Link
                 href="/resume-builder"
                 className="text-xs text-muted-foreground hover:text-primary"
               >
-                Resume Builder
+                Resume
+              </Link>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="mb-1 text-sm font-semibold text-foreground">
+                Get started
+              </span>
+              <Link
+                href="/profile-creation"
+                className="text-xs text-muted-foreground hover:text-primary"
+              >
+                Create profile
+              </Link>
+              <Link
+                href="/resume-builder"
+                className="text-xs text-muted-foreground hover:text-primary"
+              >
+                Build resume
               </Link>
             </div>
             <div className="flex flex-col gap-2">
@@ -224,16 +247,16 @@ export default function Home() {
                 Company
               </span>
               <Link
-                href="/profile-creation"
-                className="text-xs text-muted-foreground hover:text-primary"
-              >
-                Get started
-              </Link>
-              <Link
                 href="/#features"
                 className="text-xs text-muted-foreground hover:text-primary"
               >
                 Why Builder
+              </Link>
+              <Link
+                href="/"
+                className="text-xs text-muted-foreground hover:text-primary"
+              >
+                Home
               </Link>
             </div>
           </div>
