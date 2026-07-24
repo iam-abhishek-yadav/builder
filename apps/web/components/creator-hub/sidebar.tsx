@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 import { FileText, Home, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -58,6 +59,15 @@ export function CreatorHubSidebar({
           );
         })}
       </nav>
+      <div className="mt-auto border-t border-border px-6 pt-6">
+        <UserButton
+          appearance={{
+            elements: {
+              userButtonAvatarBox: "size-9",
+            },
+          }}
+        />
+      </div>
     </aside>
   );
 }
@@ -102,7 +112,12 @@ export function CreatorHubTopBar({
         ))}
       </nav>
 
-      <div className="hidden items-center gap-2 md:flex">{trailing}</div>
+      <div className="flex items-center gap-2">
+        <div className="hidden items-center gap-2 md:flex">{trailing}</div>
+        <div className="md:hidden">
+          <UserButton />
+        </div>
+      </div>
     </header>
   );
 }

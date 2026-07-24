@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { auth } from "@clerk/nextjs/server";
 import { ResumeBuilderApp } from "@/components/resume-builder/resume-builder-app";
 
 export const metadata: Metadata = {
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
     "Build ATS-friendly resumes with live preview, templates, and AI-assisted descriptions.",
 };
 
-export default function ResumeBuilderPage() {
+export default async function ResumeBuilderPage() {
+  await auth.protect();
+
   return (
     <Suspense
       fallback={

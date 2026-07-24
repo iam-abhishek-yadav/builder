@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 import { ProfileCreationApp } from "@/components/profile-creation/profile-creation-app";
 
 export const metadata: Metadata = {
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
     "Set up your professional identity, bio, links, and portrait in a few guided steps.",
 };
 
-export default function ProfileCreationPage() {
+export default async function ProfileCreationPage() {
+  await auth.protect();
   return <ProfileCreationApp />;
 }

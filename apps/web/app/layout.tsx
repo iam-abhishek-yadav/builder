@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 import { Hanken_Grotesk, Source_Serif_4 } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
@@ -32,7 +34,9 @@ export default function RootLayout({
       lang="en"
       className={cn(hanken.variable, sourceSerif.variable, "h-full")}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <ClerkProvider appearance={{ theme: shadcn }}>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
