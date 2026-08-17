@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
+import { requireAuth } from "@/lib/require-auth";
 import { ProfileCreationApp } from "@/components/profile-creation/profile-creation-app";
 
 export const metadata: Metadata = {
@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfileCreationPage() {
-  await auth.protect();
+  await requireAuth();
   return <ProfileCreationApp />;
 }

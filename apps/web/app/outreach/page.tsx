@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
+import { requireAuth } from "@/lib/require-auth";
 import { OutreachApp } from "@/components/outreach/outreach-app";
 
 export const metadata: Metadata = {
@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default async function OutreachPage() {
-  await auth.protect();
+  await requireAuth();
   return <OutreachApp />;
 }

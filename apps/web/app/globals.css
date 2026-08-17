@@ -101,6 +101,34 @@
   }
 }
 
+/* Keep Clerk's prebuilt card in the left column instead of centering on the page. */
+.auth-split .cl-rootBox,
+.auth-split [class*="cl-rootBox"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+}
+
+.auth-split .cl-cardBox,
+.auth-split [class*="cl-cardBox"],
+.auth-split .cl-card,
+.auth-split [class*="cl-card"] {
+  width: 100% !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.auth-split .cl-header,
+.auth-split [class*="cl-headerTitle"],
+.auth-split [class*="cl-headerSubtitle"] {
+  display: none !important;
+}
+
 /* Landing-only helpers */
 .hero-wash {
   background:

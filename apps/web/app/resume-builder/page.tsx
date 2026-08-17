@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { auth } from "@clerk/nextjs/server";
+import { requireAuth } from "@/lib/require-auth";
 import { ResumeBuilderApp } from "@/components/resume-builder/resume-builder-app";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ResumeBuilderPage() {
-  await auth.protect();
+  await requireAuth();
 
   return (
     <Suspense

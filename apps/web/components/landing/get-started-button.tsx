@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Show, SignUpButton } from "@clerk/nextjs";
+import { Show } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
 export function GetStartedButton({
@@ -17,15 +17,14 @@ export function GetStartedButton({
   return (
     <>
       <Show when="signed-out">
-        <SignUpButton
-          mode="modal"
-          forceRedirectUrl="/outreach"
-          fallbackRedirectUrl="/outreach"
+        <Button
+          size={size}
+          nativeButton={false}
+          render={<Link href="/sign-up" />}
+          className={className}
         >
-          <Button size={size} className={className}>
-            {children}
-          </Button>
-        </SignUpButton>
+          {children}
+        </Button>
       </Show>
       <Show when="signed-in">
         <Button

@@ -1,12 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Show,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { Show, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
@@ -44,22 +39,21 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <Show when="signed-out">
-            <SignInButton
-              mode="modal"
-              forceRedirectUrl="/outreach"
-              fallbackRedirectUrl="/outreach"
+            <Button
+              variant="ghost"
+              nativeButton={false}
+              render={<Link href="/sign-in" />}
+              className="text-muted-foreground"
             >
-              <Button variant="ghost" className="text-muted-foreground">
-                Log in
-              </Button>
-            </SignInButton>
-            <SignUpButton
-              mode="modal"
-              forceRedirectUrl="/outreach"
-              fallbackRedirectUrl="/outreach"
+              Log in
+            </Button>
+            <Button
+              nativeButton={false}
+              render={<Link href="/sign-up" />}
+              className="ambient-shadow"
             >
-              <Button className="ambient-shadow">Get Started</Button>
-            </SignUpButton>
+              Get Started
+            </Button>
           </Show>
           <Show when="signed-in">
             <Button

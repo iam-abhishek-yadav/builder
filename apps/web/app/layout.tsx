@@ -37,6 +37,8 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <ClerkProvider
           appearance={{ theme: shadcn }}
+          signInUrl="/sign-in"
+          signUpUrl="/sign-up"
           signInFallbackRedirectUrl="/outreach"
           signUpFallbackRedirectUrl="/outreach"
         >
