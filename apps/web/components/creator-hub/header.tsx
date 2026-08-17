@@ -6,15 +6,16 @@ import { UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/profile-creation", label: "Profile", key: "profile" },
+  { href: "/outreach", label: "Outreach", key: "outreach" },
   { href: "/resume-builder", label: "Resume", key: "resume" },
+  { href: "/profile-creation", label: "Profile", key: "profile" },
 ] as const;
 
 export function CreatorHubHeader({
   active,
   trailing,
 }: {
-  active: "profile" | "resume";
+  active: "profile" | "resume" | "outreach";
   trailing?: ReactNode;
 }) {
   return (

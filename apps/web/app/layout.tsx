@@ -19,9 +19,9 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Builder — Your Career, All in One Place",
+  title: "Builder — Recruiter Outreach from Your Resume",
   description:
-    "Build stunning profiles, high-conversion resumes, and beautiful portfolios designed to land your dream role.",
+    "Paste a job description, use your saved resume, and generate a personalized recruiter cold email you can copy into your inbox.",
 };
 
 export default function RootLayout({
@@ -35,7 +35,13 @@ export default function RootLayout({
       className={cn(hanken.variable, sourceSerif.variable, "h-full")}
     >
       <body className="flex min-h-full flex-col">
-        <ClerkProvider appearance={{ theme: shadcn }}>{children}</ClerkProvider>
+        <ClerkProvider
+          appearance={{ theme: shadcn }}
+          signInFallbackRedirectUrl="/outreach"
+          signUpFallbackRedirectUrl="/outreach"
+        >
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );

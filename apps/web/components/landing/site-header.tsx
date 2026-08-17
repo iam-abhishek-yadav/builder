@@ -22,16 +22,16 @@ export function SiteHeader() {
           </Link>
           <div className="hidden items-center gap-6 md:flex">
             <Link
-              href="/#features"
+              href="/#how-it-works"
               className="text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
-              Features
+              How it works
             </Link>
             <Link
-              href="/profile-creation"
+              href="/outreach"
               className="text-sm font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
-              Profile
+              Outreach
             </Link>
             <Link
               href="/resume-builder"
@@ -44,19 +44,27 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <Show when="signed-out">
-            <SignInButton mode="modal">
+            <SignInButton
+              mode="modal"
+              forceRedirectUrl="/outreach"
+              fallbackRedirectUrl="/outreach"
+            >
               <Button variant="ghost" className="text-muted-foreground">
                 Log in
               </Button>
             </SignInButton>
-            <SignUpButton mode="modal">
+            <SignUpButton
+              mode="modal"
+              forceRedirectUrl="/outreach"
+              fallbackRedirectUrl="/outreach"
+            >
               <Button className="ambient-shadow">Get Started</Button>
             </SignUpButton>
           </Show>
           <Show when="signed-in">
             <Button
               nativeButton={false}
-              render={<Link href="/profile-creation" />}
+              render={<Link href="/outreach" />}
               variant="ghost"
               className="hidden text-muted-foreground sm:inline-flex"
             >

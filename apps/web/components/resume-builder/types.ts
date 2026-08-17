@@ -180,6 +180,31 @@ export function isResumeTemplate(value: string | null): value is ResumeTemplate 
   return value === "executive" || value === "modern" || value === "minimal";
 }
 
+export function loadSavedResume(): ResumeData | null {
+  if (typeof window === "undefined") return null;
+  const raw = localStorage.getItem(RESUME_STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    return normalizeResumeData(JSON.parse(raw) as Partial<ResumeData>);
+  } catch {
+    return null;
+  }
+}
+
+export function serializeResume(data: ResumeData): string {
+  const lines = [`Name: ${data.name}`, `Title: ${data.title}`, ""];
+  for (const section of data.sections) {
+    lines.push(`## ${section.title}`);
+    for (const entry of section.entries) {
+      const head = [entry.primary, entry.secondary].filter(Boolean).join(" — ");
+      if (head) lines.push(head);
+      if (entry.description) lines.push(entry.description);
+      lines.push("");
+    }
+  }
+  return lines.join("\n").trim();
+}
+
 export function normalizeResumeData(saved: Partial<ResumeData>): ResumeData {
   let sections = saved.sections;
 
