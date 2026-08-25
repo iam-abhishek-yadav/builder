@@ -1,0 +1,21 @@
+# Local Postgres for apps/web. Production uses hosted Postgres (Neon) via DATABASE_URL.
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: builder
+      POSTGRES_PASSWORD: builder
+      POSTGRES_DB: builder
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U builder -d builder"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

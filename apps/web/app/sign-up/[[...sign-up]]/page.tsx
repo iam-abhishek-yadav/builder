@@ -1,29 +1,27 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SignUp } from "@clerk/nextjs";
-import {
-  AuthSplitLayout,
-  clerkAuthAppearance,
-} from "@/components/auth/auth-split-layout";
 
 export const metadata: Metadata = {
   title: "Get started | Builder",
-  description:
-    "Create a Builder account to generate recruiter outreach from your resume.",
+  description: "Create your Builder account.",
 };
 
 export default function SignUpPage() {
   return (
-    <AuthSplitLayout
-      title="Create your account"
-      subtitle="Start turning job posts into send-ready recruiter emails."
-    >
+    <main className="flex min-h-dvh flex-col items-center justify-center bg-background px-4 py-12">
+      <Link
+        href="/"
+        className="font-display mb-8 text-2xl font-bold tracking-tight text-foreground"
+      >
+        Builder
+      </Link>
       <SignUp
         path="/sign-up"
         routing="path"
         signInUrl="/sign-in"
-        fallbackRedirectUrl="/outreach"
-        appearance={clerkAuthAppearance}
+        fallbackRedirectUrl="/"
       />
-    </AuthSplitLayout>
+    </main>
   );
 }

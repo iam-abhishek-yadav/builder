@@ -13,6 +13,37 @@ npm workspaces + Turborepo monorepo.
 npm install
 ```
 
+## Database
+
+Local Postgres is Docker. Production is hosted Postgres (Neon). Both use the same Drizzle schema in `apps/web/db`. There are no product tables yet — first migration lands when we add a schema.
+
+```sh
+docker compose up -d
+cp apps/web/.env.example apps/web/.env
+```
+
+`DATABASE_URL` for local:
+
+```
+postgresql://builder:builder@localhost:5432/builder
+```
+
+Point production `DATABASE_URL` at Neon in the host env (Vercel). After there is a migration:
+
+```sh
+npm run db:deploy --workspace=web
+```
+
+Drizzle helpers (from `apps/web` or via `--workspace=web`):
+
+```sh
+npm run db:generate --workspace=web
+npm run db:migrate --workspace=web
+npm run db:push --workspace=web
+npm run db:studio --workspace=web
+npm run db:deploy --workspace=web
+```
+
 ## Develop
 
 Start all apps:

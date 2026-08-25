@@ -1,17 +1,19 @@
-import { AuthWarmup } from "@/components/auth/auth-warmup";
+import { CtaBand } from "@/components/landing/cta-band";
+import { Features } from "@/components/landing/features";
 import { HeroSection } from "@/components/landing/hero-section";
-import { HowItWorks } from "@/components/landing/how-it-works";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { WhoItsFor } from "@/components/landing/who-its-for";
 
 export default function Home() {
   return (
     <>
-      <AuthWarmup />
       <SiteHeader />
       <main>
         <HeroSection />
-        <HowItWorks />
+        <WhoItsFor />
+        <Features />
+        <CtaBand />
       </main>
       <SiteFooter />
     </>
