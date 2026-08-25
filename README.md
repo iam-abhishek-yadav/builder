@@ -15,7 +15,7 @@ npm install
 
 ## Database
 
-Local Postgres is Docker. Production is hosted Postgres (Neon). Both use the same Drizzle schema in `apps/web/db`. There are no product tables yet — first migration lands when we add a schema.
+Local Postgres is Docker. Production is hosted Postgres (Neon). Both use the same Drizzle schema in `apps/web/db/schema`. The first tables are **job profile** only (user, profile sections, resume document).
 
 ```sh
 docker compose up -d

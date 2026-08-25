@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk, Source_Serif_4 } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
+import { ClerkReady } from "@/components/auth/clerk-ready";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -32,13 +33,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col font-sans antialiased">
         <ClerkProvider
-          appearance={{ theme: shadcn }}
+          appearance={{
+            theme: shadcn,
+            variables: { colorBackground: "#f3f1eb" },
+          }}
           signInUrl="/sign-in"
           signUpUrl="/sign-up"
-          signInFallbackRedirectUrl="/"
-          signUpFallbackRedirectUrl="/"
+          signInFallbackRedirectUrl="/profile"
+          signUpFallbackRedirectUrl="/profile"
         >
-          {children}
+          <ClerkReady>{children}</ClerkReady>
         </ClerkProvider>
       </body>
     </html>

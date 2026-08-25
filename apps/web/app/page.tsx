@@ -1,4 +1,3 @@
-import { CtaBand } from "@/components/landing/cta-band";
 import { Features } from "@/components/landing/features";
 import { HeroSection } from "@/components/landing/hero-section";
 import { SiteFooter } from "@/components/landing/site-footer";
@@ -13,7 +12,6 @@ export default function Home() {
         <HeroSection />
         <WhoItsFor />
         <Features />
-        <CtaBand />
       </main>
       <SiteFooter />
     </>

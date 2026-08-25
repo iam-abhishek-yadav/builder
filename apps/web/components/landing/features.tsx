@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link";
 import {
   Briefcase,
   FileText,
@@ -6,6 +9,7 @@ import {
   Sparkles,
   UserRound,
 } from "lucide-react";
+import { Show } from "@clerk/nextjs";
 
 const FEATURES = [
   {
@@ -13,42 +17,42 @@ const FEATURES = [
     title: "Profile",
     body: "A public identity from intern to staff+. Skills, work, education, and what you are open to.",
     icon: UserRound,
-    className: "md:col-span-2 md:row-span-2",
+    live: true,
   },
   {
     id: "jobs",
     title: "Jobs",
     body: "Founders post roles. Builders browse and apply with the profile they already keep here.",
     icon: Briefcase,
-    className: "md:col-span-2",
+    live: false,
   },
   {
     id: "launch",
     title: "Launch",
     body: "List a project or a shipping update so other builders can see what you are making.",
     icon: Rocket,
-    className: "md:col-span-2",
+    live: false,
   },
   {
     id: "practice",
     title: "Practice",
     body: "AI mock interviews first, grounded in your story. DSA and drills come later.",
     icon: Sparkles,
-    className: "md:col-span-2",
+    live: false,
   },
   {
     id: "resume",
     title: "Resume",
     body: "One structured resume that feeds your profile and applications.",
     icon: FileText,
-    className: "md:col-span-2",
+    live: false,
   },
   {
     id: "outreach",
     title: "Outreach",
     body: "Recruiter emails that cite work you actually did.",
     icon: Mail,
-    className: "md:col-span-2",
+    live: false,
   },
 ] as const;
 
@@ -73,43 +77,46 @@ export function Features() {
             </h2>
           </div>
           <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
-            Rolling out in stages. Create an account now so you are here when
-            each piece goes live.
+            Profile is live. The rest rolls out next — same account.
           </p>
         </div>
 
-        <ul className="grid gap-4 md:grid-cols-6">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature) => {
             const Icon = feature.icon;
-            const featured = feature.id === "profile";
+            const card = (
+              <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-6">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Icon className="size-5" aria-hidden />
+                  </span>
+                  <span className="text-[0.7rem] font-semibold tracking-wide text-muted-foreground uppercase">
+                    {feature.live ? "Live" : "Soon"}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-base leading-relaxed text-muted-foreground">
+                  {feature.body}
+                </p>
+              </article>
+            );
+
             return (
-              <li
-                key={feature.id}
-                id={feature.id}
-                className={`scroll-mt-24 ${feature.className}`}
-              >
-                <article
-                  className={`flex h-full flex-col rounded-2xl border border-border bg-card p-6 ${
-                    featured ? "min-h-[18rem] justify-between" : ""
-                  }`}
-                >
-                  <div>
-                    <div className="mb-4 flex items-center justify-between gap-3">
-                      <span className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                        <Icon className="size-5" aria-hidden />
-                      </span>
-                      <span className="text-[0.7rem] font-semibold tracking-wide text-muted-foreground uppercase">
-                        Soon
-                      </span>
-                    </div>
-                    <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-base leading-relaxed text-muted-foreground">
-                      {feature.body}
-                    </p>
-                  </div>
-                </article>
+              <li key={feature.id} id={feature.id} className="scroll-mt-24">
+                {feature.live ? (
+                  <>
+                    <Show when="signed-in">
+                      <Link href="/profile" className="block h-full">
+                        {card}
+                      </Link>
+                    </Show>
+                    <Show when="signed-out">{card}</Show>
+                  </>
+                ) : (
+                  card
+                )}
               </li>
             );
           })}

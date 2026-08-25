@@ -30,10 +30,10 @@ export function HeroCtas() {
         <Button
           size="lg"
           nativeButton={false}
-          render={<Link href="/#features" />}
+          render={<Link href="/profile" />}
           className="h-12 px-7 text-sm"
         >
-          Explore the platform
+          Your profile
         </Button>
       </Show>
     </div>
