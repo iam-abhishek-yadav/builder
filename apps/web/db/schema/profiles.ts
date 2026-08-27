@@ -15,6 +15,12 @@ import {
   openToEnum,
   resumeTemplateEnum,
 } from "./enums";
+import {
+  launchBuyOffers,
+  launchComments,
+  launches,
+  launchUpvotes,
+} from "./launches";
 import { users } from "./users";
 
 export const profiles = pgTable("profiles", {
@@ -306,4 +312,8 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   awards: many(awards),
   publications: many(publications),
   volunteerRoles: many(volunteerRoles),
+  launches: many(launches),
+  launchUpvotes: many(launchUpvotes),
+  launchComments: many(launchComments),
+  launchBuyOffers: many(launchBuyOffers),
 }));

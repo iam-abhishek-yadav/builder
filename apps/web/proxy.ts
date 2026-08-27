@@ -4,7 +4,8 @@ function isPublicPath(pathname: string) {
   return (
     pathname === "/" ||
     pathname.startsWith("/sign-in") ||
-    pathname.startsWith("/sign-up")
+    pathname.startsWith("/sign-up") ||
+    pathname.startsWith("/launchpad")
   );
 }
 
