@@ -4,7 +4,6 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ProfileForm } from "@/components/profile/profile-form";
-import { DownloadResumeButton } from "@/components/profile/download-resume-button";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { requireDbUser } from "@/lib/current-user";
@@ -39,7 +38,6 @@ export default async function ProfilePage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <DownloadResumeButton />
             {user.email ? (
               <Button
                 variant="outline"
