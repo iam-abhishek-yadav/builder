@@ -20,9 +20,9 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Builder — One-stop platform for builders",
+  title: "Builder — A home base for people who ship",
   description:
-    "Show up, get hired, launch what you ship, and practice for what is next — from fresher to staff+.",
+    "Put your work in one place and keep it current — from intern to staff+.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -22,7 +22,7 @@ export function WhoItsFor() {
         </h2>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-muted-foreground">
           Freshers lead with projects and coursework. Experienced builders lead
-          with roles and launches. Nobody gets a lesser product.
+          with the work they have already done. Nobody gets a lesser product.
         </p>
         <ul className="mt-8 flex flex-wrap gap-2">
           {LEVELS.map((level) => (

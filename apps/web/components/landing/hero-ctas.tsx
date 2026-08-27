@@ -20,10 +20,10 @@ export function HeroCtas() {
           size="lg"
           variant="outline"
           nativeButton={false}
-          render={<Link href="/#features" />}
+          render={<Link href="/sign-in" />}
           className="h-12 border-white/25 bg-transparent px-7 text-sm text-white hover:bg-white/10 hover:text-white"
         >
-          Explore the platform
+          Log in
         </Button>
       </Show>
       <Show when="signed-in">
