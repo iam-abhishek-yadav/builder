@@ -23,6 +23,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { saveProfileAction } from "@/app/profile/actions";
 import { DateField } from "@/components/profile/date-field";
+import { DownloadResumeButton } from "@/components/profile/download-resume-button";
 import { MultiListCombobox, SelectedChips, SingleListCombobox } from "@/components/profile/list-combobox";
 import type { JobProfileData } from "@/lib/job-profile";
 import { formatDateRange } from "@/lib/format-date";
@@ -804,6 +805,7 @@ export function ProfileForm({
           <Button type="submit" disabled={pending} className="h-10 px-6">
             {pending ? "Saving…" : "Save profile"}
           </Button>
+          <DownloadResumeButton />
           {message ? <p className="text-sm text-primary">{message}</p> : null}
           {error ? <p className="text-sm text-destructive">{error}</p> : null}
         </div>

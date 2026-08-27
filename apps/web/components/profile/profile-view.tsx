@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DownloadResumeButton } from "@/components/profile/download-resume-button";
 import { formatDateRange, formatMonthYear } from "@/lib/format-date";
 import type { JobProfileData } from "@/lib/job-profile";
 
@@ -118,13 +119,16 @@ export function ProfileView({
             </p>
           </div>
           {isOwner ? (
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href="/profile" />}
-            >
-              Edit profile
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+              <DownloadResumeButton />
+              <Button
+                variant="outline"
+                nativeButton={false}
+                render={<Link href="/profile" />}
+              >
+                Edit profile
+              </Button>
+            </div>
           ) : null}
         </div>
         {data.bio ? (
