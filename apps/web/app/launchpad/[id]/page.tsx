@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BuyOfferButton } from "@/components/launchpad/buy-offer-button";
 import { CommentForm } from "@/components/launchpad/comment-form";
+import { LaunchLogo } from "@/components/launchpad/launch-logo";
 import { UpvoteButton } from "@/components/launchpad/upvote-button";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
@@ -36,24 +38,18 @@ export default async function LaunchDetailPage({ params }: PageProps) {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-8">
+      <main className="mx-auto w-full max-w-208 px-4 py-10 sm:px-8">
         <Button
           variant="outline"
-          className="mb-6"
+          className="mb-8"
           nativeButton={false}
           render={<Link href={launch.week.href} />}
         >
           {launch.week.isCurrent ? "This week" : launch.week.label}
         </Button>
 
-        <div className="flex gap-4">
-          <UpvoteButton
-            launchId={launch.id}
-            count={launch.upvoteCount}
-            voted={launch.viewerHasUpvoted}
-            signedIn={Boolean(viewer)}
-            disabled={launch.isOwner}
-          />
+        <div className="flex items-start gap-4 sm:gap-5">
+          <LaunchLogo name={launch.name} size="lg" />
           <div className="min-w-0 flex-1">
             <p className="text-sm text-muted-foreground">
               {launch.week.label} · {launch.week.range}
@@ -74,14 +70,16 @@ export default async function LaunchDetailPage({ params }: PageProps) {
                 launch.makerName
               )}
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap items-center gap-2">
               <Button
+                variant="outline"
                 nativeButton={false}
                 render={
                   <a href={launch.url} target="_blank" rel="noreferrer" />
                 }
               >
                 Visit
+                <ArrowUpRight data-icon="inline-end" />
               </Button>
               <BuyOfferButton
                 launchId={launch.id}
@@ -89,6 +87,15 @@ export default async function LaunchDetailPage({ params }: PageProps) {
                 offered={launch.viewerHasOffered}
                 disabled={launch.isOwner}
               />
+              <div className="sm:ml-auto">
+                <UpvoteButton
+                  launchId={launch.id}
+                  count={launch.upvoteCount}
+                  voted={launch.viewerHasUpvoted}
+                  signedIn={Boolean(viewer)}
+                  disabled={launch.isOwner}
+                />
+              </div>
             </div>
             {launch.description ? (
               <p className="mt-8 whitespace-pre-wrap text-sm leading-7">

@@ -124,3 +124,23 @@ export function adjacentWeeks(week: LaunchWeek) {
   const next = week.isCurrent ? null : getLaunchWeek(addUtcDays(week.start, 7));
   return { previous, next };
 }
+
+export function listVisibleWeeks(selected: LaunchWeek, count = 7): LaunchWeek[] {
+  const current = getLaunchWeek();
+  let start = addUtcDays(current.start, -(count - 1) * 7);
+  let end = current.start;
+
+  if (selected.start < start) {
+    start = selected.start;
+    end = addUtcDays(start, (count - 1) * 7);
+    if (end > current.start) {
+      end = current.start;
+    }
+  }
+
+  const weeks: LaunchWeek[] = [];
+  for (let day = start; day <= end; day = addUtcDays(day, 7)) {
+    weeks.push(getLaunchWeek(day));
+  }
+  return weeks;
+}

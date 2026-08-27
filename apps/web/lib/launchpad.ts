@@ -29,6 +29,7 @@ export type LaunchListItem = {
   id: string;
   name: string;
   tagline: string;
+  description: string | null;
   url: string;
   makerName: string;
   makerEmail: string | null;
@@ -59,6 +60,7 @@ export async function loadWeekLaunches(
       id: row.id,
       name: row.name,
       tagline: row.tagline,
+      description: row.description,
       url: row.url,
       makerName: makerName(row.user),
       makerEmail: row.user.email,

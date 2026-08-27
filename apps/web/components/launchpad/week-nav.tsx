@@ -1,53 +1,58 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import type { LaunchWeek } from "@/lib/launch-week";
-import { adjacentWeeks } from "@/lib/launch-week";
+import { adjacentWeeks, listVisibleWeeks } from "@/lib/launch-week";
+import { cn } from "@/lib/utils";
 
 export function WeekNav({ week }: { week: LaunchWeek }) {
   const { previous, next } = adjacentWeeks(week);
+  const weeks = listVisibleWeeks(week);
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <p className="text-sm font-medium text-primary">{week.label}</p>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">
-          {week.isCurrent ? "This week’s launches" : week.range}
-        </h1>
-        {week.isCurrent ? (
-          <p className="mt-1 text-muted-foreground">{week.range} · UTC</p>
-        ) : (
-          <p className="mt-1 text-muted-foreground">
-            {week.year} · UTC
-          </p>
-        )}
+    <div className="flex items-center gap-1 sm:gap-2">
+      <Link
+        href={previous.href}
+        aria-label="Previous week"
+        className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      >
+        <ChevronLeft className="size-5" />
+      </Link>
+      <div className="flex min-w-0 flex-1 items-center justify-center gap-1 overflow-x-auto scrollbar-none">
+        {weeks.map((item) => {
+          const selected = item.start === week.start;
+          return (
+            <Link
+              key={item.start}
+              href={item.href}
+              aria-current={selected ? "page" : undefined}
+              className={cn(
+                "shrink-0 rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors sm:px-3.5",
+                selected
+                  ? "bg-[#d9f0e3] text-[#0f6b45]"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </div>
-      <div className="flex items-center gap-2">
-        <Button
-          variant="outline"
-          size="icon"
-          nativeButton={false}
-          render={<Link href={previous.href} />}
-          aria-label="Previous week"
+      {next ? (
+        <Link
+          href={next.href}
+          aria-label="Next week"
+          className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
-          <ChevronLeft />
-        </Button>
-        {next ? (
-          <Button
-            variant="outline"
-            size="icon"
-            nativeButton={false}
-            render={<Link href={next.href} />}
-            aria-label="Next week"
-          >
-            <ChevronRight />
-          </Button>
-        ) : (
-          <Button variant="outline" size="icon" disabled aria-label="Next week">
-            <ChevronRight />
-          </Button>
-        )}
-      </div>
+          <ChevronRight className="size-5" />
+        </Link>
+      ) : (
+        <span
+          aria-disabled
+          className="flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground/40"
+        >
+          <ChevronRight className="size-5" />
+        </span>
+      )}
     </div>
   );
 }
