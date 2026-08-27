@@ -11,7 +11,7 @@ export default function SignInPage() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-background px-4 py-12">
       <Link
-        href="/"
+        href="/launchpad"
         className="font-display mb-8 text-2xl font-bold tracking-tight text-foreground"
       >
         Builder
@@ -20,7 +20,7 @@ export default function SignInPage() {
         path="/sign-in"
         routing="path"
         signUpUrl="/sign-up"
-        fallbackRedirectUrl="/profile"
+        fallbackRedirectUrl="/launchpad"
       />
     </main>
   );

@@ -8,8 +8,7 @@ import { BuyOfferButton } from "@/components/launchpad/buy-offer-button";
 import { CommentForm } from "@/components/launchpad/comment-form";
 import { LaunchLogo } from "@/components/launchpad/launch-logo";
 import { UpvoteButton } from "@/components/launchpad/upvote-button";
-import { SiteFooter } from "@/components/landing/site-footer";
-import { SiteHeader } from "@/components/landing/site-header";
+import { AppShell } from "@/components/shell/app-shell";
 import { requireDbUser } from "@/lib/current-user";
 import { loadLaunch } from "@/lib/launchpad";
 import { profileHref } from "@/lib/profile-path";
@@ -36,17 +35,15 @@ export default async function LaunchDetailPage({ params }: PageProps) {
   }
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-208 px-4 py-10 sm:px-8">
-        <Button
-          variant="outline"
-          className="mb-8"
-          nativeButton={false}
-          render={<Link href={launch.week.href} />}
-        >
-          {launch.week.isCurrent ? "This week" : launch.week.label}
-        </Button>
+    <AppShell>
+      <Button
+        variant="outline"
+        className="mb-8"
+        nativeButton={false}
+        render={<Link href={launch.week.href} />}
+      >
+        {launch.week.isCurrent ? "This week" : launch.week.label}
+      </Button>
 
         <div className="flex items-start gap-4 sm:gap-5">
           <LaunchLogo name={launch.name} size="lg" />
@@ -176,8 +173,6 @@ export default async function LaunchDetailPage({ params }: PageProps) {
             ))}
           </div>
         </section>
-      </main>
-      <SiteFooter />
-    </>
+    </AppShell>
   );
 }

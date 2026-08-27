@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, redirect } from "next/navigation";
-import { SiteFooter } from "@/components/landing/site-footer";
-import { SiteHeader } from "@/components/landing/site-header";
+import { AppShell } from "@/components/shell/app-shell";
 import { ProfileView } from "@/components/profile/profile-view";
 import { requireDbUser } from "@/lib/current-user";
 import { loadPublicProfile } from "@/lib/job-profile";
@@ -35,16 +34,14 @@ export default async function PublicProfilePage({
   }
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-8">
+    <AppShell>
+      <div className="mx-auto w-full max-w-3xl">
         <ProfileView
           email={result.email}
           data={result.profile}
           isOwner={viewer.id === result.userId}
         />
-      </main>
-      <SiteFooter />
-    </>
+      </div>
+    </AppShell>
   );
 }

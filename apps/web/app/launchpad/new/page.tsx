@@ -3,8 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { LaunchForm } from "@/components/launchpad/launch-form";
-import { SiteFooter } from "@/components/landing/site-footer";
-import { SiteHeader } from "@/components/landing/site-header";
+import { AppShell } from "@/components/shell/app-shell";
 import { requireDbUser } from "@/lib/current-user";
 import { findMyLaunchThisWeek } from "@/lib/launchpad";
 
@@ -25,28 +24,24 @@ export default async function NewLaunchPage() {
   }
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-xl px-4 py-10 sm:px-8">
-        <Button
-          variant="outline"
-          className="mb-6"
-          nativeButton={false}
-          render={<Link href="/launchpad" />}
-        >
-          Back to Launchpad
-        </Button>
-        <h1 className="font-display text-3xl font-semibold tracking-tight">
-          Launch this week
-        </h1>
-        <p className="mt-2 text-muted-foreground">
-          One project per week. The board resets every Monday, 00:00 UTC.
-        </p>
-        <div className="mt-8">
-          <LaunchForm />
-        </div>
-      </main>
-      <SiteFooter />
-    </>
+    <AppShell>
+      <Button
+        variant="outline"
+        className="mb-6"
+        nativeButton={false}
+        render={<Link href="/launchpad" />}
+      >
+        Back to Launchpad
+      </Button>
+      <h1 className="font-display text-3xl font-semibold tracking-tight">
+        Launch this week
+      </h1>
+      <p className="mt-2 text-muted-foreground">
+        One project per week. The board resets every Monday, 00:00 UTC.
+      </p>
+      <div className="mt-8 max-w-xl">
+        <LaunchForm />
+      </div>
+    </AppShell>
   );
 }

@@ -4,8 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ProfileForm } from "@/components/profile/profile-form";
-import { SiteFooter } from "@/components/landing/site-footer";
-import { SiteHeader } from "@/components/landing/site-header";
+import { AppShell } from "@/components/shell/app-shell";
 import { requireDbUser } from "@/lib/current-user";
 import { loadJobProfile } from "@/lib/job-profile";
 import { profileHref } from "@/lib/profile-path";
@@ -25,9 +24,8 @@ export default async function ProfilePage() {
   const initial = await loadJobProfile(user.id);
 
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-8">
+    <AppShell>
+      <div className="mx-auto w-full max-w-3xl">
         <div className="mb-8 flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="font-display text-3xl font-semibold tracking-tight">
@@ -50,8 +48,7 @@ export default async function ProfilePage() {
           </div>
         </div>
         <ProfileForm initial={initial} email={user.email ?? ""} />
-      </main>
-      <SiteFooter />
-    </>
+      </div>
+    </AppShell>
   );
 }

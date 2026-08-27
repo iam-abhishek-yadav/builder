@@ -20,9 +20,8 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Builder — A home base for people who ship",
-  description:
-    "Put your work in one place and keep it current — from intern to staff+.",
+  title: "Builder",
+  description: "A weekly Launchpad and job profile for people who ship.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -39,8 +38,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
           signInUrl="/sign-in"
           signUpUrl="/sign-up"
-          signInFallbackRedirectUrl="/profile"
-          signUpFallbackRedirectUrl="/profile"
+          signInFallbackRedirectUrl="/launchpad"
+          signUpFallbackRedirectUrl="/launchpad"
         >
           <ClerkReady>{children}</ClerkReady>
         </ClerkProvider>

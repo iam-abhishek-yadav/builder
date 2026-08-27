@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { SiteFooter } from "@/components/landing/site-footer";
-import { SiteHeader } from "@/components/landing/site-header";
+import { AppShell } from "@/components/shell/app-shell";
 
 export default function ProfileNotFound() {
   return (
-    <>
-      <SiteHeader />
-      <main className="mx-auto w-full max-w-3xl px-4 py-20 sm:px-8">
+    <AppShell>
+      <div className="mx-auto w-full max-w-3xl py-10">
         <h1 className="font-display text-3xl font-semibold tracking-tight">
           Profile not found
         </h1>
@@ -17,12 +15,11 @@ export default function ProfileNotFound() {
         <Button
           className="mt-6"
           nativeButton={false}
-          render={<Link href="/" />}
+          render={<Link href="/launchpad" />}
         >
-          Back home
+          Back to Launchpad
         </Button>
-      </main>
-      <SiteFooter />
-    </>
+      </div>
+    </AppShell>
   );
 }
