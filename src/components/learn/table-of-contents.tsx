@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils";
 /** "On this page" list that highlights the section currently being read. */
 export function TableOfContents({ items }: { items: TocItem[] }) {
   const [active, setActive] = useState<string | null>(items[0]?.id ?? null);
+  // Indent an h3 only when it sits under an h2; h3s before the first h2 stay flush left.
+  const firstH2 = items.findIndex((i) => i.depth === 2);
+  const indented = items.map((i, idx) => i.depth === 3 && firstH2 !== -1 && idx > firstH2);
 
   useEffect(() => {
     const headings = items
@@ -15,7 +18,12 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id);
+        if (visible[0]) {
+          setActive(visible[0].target.id);
+          document
+            .querySelector(`nav[aria-label="On this page"] a[href="#${CSS.escape(visible[0].target.id)}"]`)
+            ?.scrollIntoView({ block: "nearest" });
+        }
       },
       { rootMargin: "-80px 0px -70% 0px" },
     );
@@ -27,13 +35,13 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
     <nav aria-label="On this page" className="space-y-3 text-sm">
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">On this page</p>
       <ul className="space-y-2 border-l">
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <li key={item.id}>
             <a
               href={`#${item.id}`}
               className={cn(
                 "-ml-px block border-l py-0.5 transition-colors hover:text-foreground",
-                item.depth === 3 ? "pl-6" : "pl-3",
+                indented[idx] ? "pl-6" : "pl-3",
                 active === item.id ? "border-brand text-foreground" : "border-transparent text-muted-foreground",
               )}
             >

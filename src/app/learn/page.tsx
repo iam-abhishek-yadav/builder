@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { PenLine, Route } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
-import { ArticleCard, ArticleGridSkeleton } from "@/components/learn/article-card";
+import { ArticleRow } from "@/components/learn/article-card";
 import { buttonVariants } from "@/components/ui/button";
 import { isAdmin } from "@/lib/admin";
 import { getPublicTopics, getPublishedArticles } from "@/lib/learn/queries";
@@ -35,7 +35,7 @@ export default function LearnPage({ searchParams }: PageProps<"/learn">) {
           </Suspense>
         </div>
       </header>
-      <Suspense fallback={<ArticleGridSkeleton count={6} />}>
+      <Suspense fallback={<ListSkeleton />}>
         <ArticleList searchParams={searchParams} />
       </Suspense>
     </Container>
@@ -73,9 +73,9 @@ async function ArticleList({ searchParams }: { searchParams: PageProps<"/learn">
           Nothing published here yet. Check back soon.
         </div>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="divide-y border-b">
           {articles.map((a) => (
-            <ArticleCard key={a.id} article={a} />
+            <ArticleRow key={a.id} article={a} />
           ))}
         </div>
       )}
@@ -98,5 +98,21 @@ function TopicTab({ href, active, label, count }: { href: string; active: boolea
         <span className={cn("font-mono text-xs", active ? "text-background/70" : "text-muted-foreground")}>{count}</span>
       ) : null}
     </Link>
+  );
+}
+
+function ListSkeleton() {
+  return (
+    <div className="mt-8 divide-y border-y">
+      {Array.from({ length: 3 }, (_, i) => (
+        <div key={i} className="grid gap-3 py-7 sm:grid-cols-[180px_1fr] sm:gap-8">
+          <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+          <div className="space-y-2">
+            <div className="h-6 w-2/3 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-full animate-pulse rounded bg-muted/70" />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

@@ -3,8 +3,7 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 import { ArrowRight, ArrowUpRight, BookOpen, ChevronUp, Rocket, Route } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
-import { ArticleCard } from "@/components/learn/article-card";
-import { RoadmapCard } from "@/components/roadmaps/roadmap-card";
+import { RoadmapRow } from "@/components/roadmaps/roadmap-card";
 import { buttonVariants } from "@/components/ui/button";
 import { getLeaderboard } from "@/lib/launchpad/queries";
 import { getHighlightedArticles, getPublicTopics, type ArticleSummary } from "@/lib/learn/queries";
@@ -12,7 +11,8 @@ import { getPublishedRoadmaps } from "@/lib/roadmaps/queries";
 import { cn } from "@/lib/utils";
 
 // Public landing page: no sign-in required. Static parts prerender into the shell;
-// live sections stream in from cached queries. Only shows what is live today.
+// live sections stream in from cached queries. Only shows what is live today, and
+// each section adapts its layout to how much content exists (no half-empty grids).
 
 export default function LandingPage() {
   return (
@@ -21,18 +21,13 @@ export default function LandingPage() {
 
       <section className="border-y bg-muted/30">
         <Container className="py-20">
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="max-w-2xl space-y-3">
-              <Eyebrow>Learn</Eyebrow>
-              <h2 className="text-3xl font-semibold tracking-tight">Start reading</h2>
-              <p className="text-muted-foreground">
-                In-depth write-ups on how real software is designed, built and scaled.
-              </p>
-            </div>
-            <Link href="/learn" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-              All articles <ArrowRight className="size-3.5" />
-            </Link>
-          </div>
+          <SectionHeading
+            eyebrow="Learn"
+            title="Start reading"
+            description="In-depth write-ups on how real software is designed, built and scaled."
+            href="/learn"
+            linkLabel="All articles"
+          />
           <Suspense fallback={<LearnSkeleton />}>
             <LearnHighlights />
           </Suspense>
@@ -43,50 +38,41 @@ export default function LandingPage() {
         <RoadmapHighlights />
       </Suspense>
 
-      <Container className="grid gap-16 py-20 lg:grid-cols-[2fr_3fr]">
-        <section className="space-y-5">
-          <Eyebrow>What&apos;s here</Eyebrow>
-          <div className="grid gap-3">
-            <Pillar
-              icon={Rocket}
-              title="Launchpad"
-              body="Ship a project and get upvotes and real feedback from other engineers. Every day has its own leaderboard."
-              href="/launchpad"
-              cta="See this week's launches"
-            />
-            <Pillar
-              icon={BookOpen}
-              title="Learn"
-              body="Fundamentals and production case studies, written for engineers who want the details."
-              href="/learn"
-              cta="Browse articles"
-            />
-            <Pillar
-              icon={Route}
-              title="Roadmaps"
-              body="Step-by-step paths that tell you what to learn next, with progress you can tick off as you go."
-              href="/roadmaps"
-              cta="Pick a roadmap"
-            />
-          </div>
-        </section>
-        <section className="space-y-6">
-          <div className="flex items-end justify-between gap-4">
-            <div className="space-y-1.5">
-              <Eyebrow>Launchpad</Eyebrow>
-              <h2 className="text-2xl font-semibold tracking-tight">Trending this week</h2>
-            </div>
-            <Link href="/launchpad" className="inline-flex shrink-0 items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-              All launches <ArrowRight className="size-3.5" />
-            </Link>
-          </div>
-          <Suspense fallback={<div className="h-72 animate-pulse rounded-xl border bg-muted/50" />}>
-            <TrendingLaunches />
-          </Suspense>
-        </section>
+      <Container className="pt-20">
+        <Eyebrow>What&apos;s here</Eyebrow>
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <Pillar
+            icon={BookOpen}
+            title="Learn"
+            body="Fundamentals and production case studies, written for engineers who want the details."
+            href="/learn"
+            cta="Browse articles"
+          />
+          <Pillar
+            icon={Route}
+            title="Roadmaps"
+            body="Step-by-step paths that tell you what to learn next, with progress you can tick off as you go."
+            href="/roadmaps"
+            cta="Pick a roadmap"
+          />
+          <Pillar
+            icon={Rocket}
+            title="Launchpad"
+            body="Ship a project and get upvotes and real feedback from other engineers. Every day has its own leaderboard."
+            href="/launchpad"
+            cta="See this week's launches"
+          />
+        </div>
       </Container>
 
-      <Container>
+      <Container className="pt-20">
+        <SectionHeading eyebrow="Launchpad" title="Trending this week" href="/launchpad" linkLabel="All launches" />
+        <Suspense fallback={<div className="mt-8 h-40 animate-pulse rounded-xl border bg-muted/50" />}>
+          <TrendingLaunches />
+        </Suspense>
+      </Container>
+
+      <Container className="pt-20">
         <div className="relative overflow-hidden rounded-2xl border bg-foreground px-6 py-14 text-background sm:px-12">
           <div className="bg-dot-grid absolute inset-0 opacity-20" aria-hidden />
           <div className="relative flex flex-wrap items-center justify-between gap-6">
@@ -108,7 +94,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="bg-dot-grid mask-fade-b absolute inset-0" aria-hidden />
-      <Container className="relative py-24 sm:py-32">
+      <Container className="relative py-20 sm:py-32">
         <div className="max-w-3xl space-y-6">
           <Eyebrow>For engineers who ship</Eyebrow>
           <h1 className="text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-6xl">
@@ -122,34 +108,46 @@ function Hero() {
             <Link href="/learn" className={buttonVariants({ size: "lg" })}>
               Start reading <ArrowRight />
             </Link>
-            <Link href="/launchpad" className={buttonVariants({ size: "lg", variant: "outline" })}>
-              Explore Launchpad
+            <Link href="/roadmaps" className={buttonVariants({ size: "lg", variant: "outline" })}>
+              Browse roadmaps
             </Link>
           </div>
         </div>
-        <Suspense fallback={<div className="mt-16 h-5" />}>
-          <LiveStats />
-        </Suspense>
       </Container>
     </section>
   );
 }
 
-function Pillar({
-  icon: Icon,
+function SectionHeading({
+  eyebrow,
   title,
-  body,
+  description,
   href,
-  cta,
+  linkLabel,
 }: {
-  icon: typeof Rocket;
+  eyebrow: string;
   title: string;
-  body: string;
+  description?: string;
   href: string;
-  cta: string;
+  linkLabel: string;
 }) {
   return (
-    <Link href={href} className="group rounded-xl border bg-background p-5 transition-colors hover:border-foreground/25">
+    <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+      <div className="max-w-2xl space-y-2">
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
+        {description ? <p className="text-muted-foreground">{description}</p> : null}
+      </div>
+      <Link href={href} className="inline-flex shrink-0 items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+        {linkLabel} <ArrowRight className="size-3.5" />
+      </Link>
+    </div>
+  );
+}
+
+function Pillar({ icon: Icon, title, body, href, cta }: { icon: typeof Rocket; title: string; body: string; href: string; cta: string }) {
+  return (
+    <Link href={href} className="group flex flex-col rounded-xl border bg-background p-5 transition-colors hover:border-foreground/25">
       <div className="flex items-center gap-3">
         <span className="grid size-8 place-items-center rounded-lg border">
           <Icon className="size-4" />
@@ -157,42 +155,16 @@ function Pillar({
         <h3 className="font-semibold">{title}</h3>
       </div>
       <p className="mt-3 text-sm leading-6 text-muted-foreground">{body}</p>
-      <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium group-hover:text-brand">
+      <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium group-hover:text-brand">
         {cta} <ArrowRight className="size-3.5" />
       </span>
     </Link>
   );
 }
 
-async function LiveStats() {
-  await connection(); // live numbers at request time (queries themselves are cached)
-  const [days, topics] = await Promise.all([getLeaderboard(), getPublicTopics()]);
-  const launches = days.reduce((n, d) => n + d.projects.length, 0);
-  const articles = topics.reduce((n, t) => n + t.articles, 0);
-  return (
-    <dl className="mt-16 flex flex-wrap gap-x-10 gap-y-3 font-mono text-sm">
-      <Stat label="launches this week" value={launches} />
-      <Stat label={articles === 1 ? "article" : "articles"} value={articles} />
-      {topics.length > 0 ? <Stat label={topics.length === 1 ? "topic" : "topics"} value={topics.length} /> : null}
-    </dl>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="flex items-baseline gap-2">
-      <dt className="sr-only">{label}</dt>
-      <dd className="text-foreground tabular-nums">{value}</dd>
-      <span aria-hidden className="text-muted-foreground">
-        {label}
-      </span>
-    </div>
-  );
-}
-
 async function LearnHighlights() {
   await connection();
-  const [articles, topics] = await Promise.all([getHighlightedArticles(7), getPublicTopics()]);
+  const [articles, topics] = await Promise.all([getHighlightedArticles(6), getPublicTopics()]);
 
   if (articles.length === 0) {
     return (
@@ -219,35 +191,58 @@ async function LearnHighlights() {
           ))}
         </div>
       ) : null}
-      <SpotlightCard article={spotlight} />
-      {rest.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {rest.map((a) => (
-            <ArticleCard key={a.id} article={a} />
-          ))}
-        </div>
-      ) : null}
+      {/* Spotlight plus a side list: fills the width whether there are 2 articles or 6. */}
+      <div className={cn("grid gap-6", rest.length > 0 && "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]")}>
+        <SpotlightCard article={spotlight} />
+        {rest.length > 0 ? (
+          <div className="flex flex-col rounded-2xl border bg-background">
+            <p className="border-b px-5 py-3 font-mono text-[11px] tracking-wider text-muted-foreground uppercase">
+              {rest.length === 1 ? "Also read" : "More to read"}
+            </p>
+            <ul className="divide-y">
+              {rest.map((a) => (
+                <CompactArticle key={a.id} article={a} expanded={rest.length === 1} />
+              ))}
+            </ul>
+            <Link
+              href="/learn"
+              className="mt-auto inline-flex items-center gap-1 border-t px-5 py-3 text-sm text-muted-foreground hover:text-foreground"
+            >
+              All articles <ArrowRight className="size-3.5" />
+            </Link>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
 
 function SpotlightCard({ article }: { article: ArticleSummary }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border bg-background p-6 transition-colors hover:border-foreground/25 sm:p-10">
-      <div className="bg-dot-grid absolute inset-y-0 right-0 hidden w-1/3 opacity-60 [mask-image:linear-gradient(to_left,black,transparent)] md:block" aria-hidden />
-      <div className="relative max-w-2xl">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border bg-background p-6 transition-colors hover:border-foreground/25 sm:p-10">
+      <div className="bg-dot-grid absolute inset-x-0 top-0 h-24 opacity-50 mask-[linear-gradient(to_bottom,black,transparent)]" aria-hidden />
+      <div className="relative flex flex-1 flex-col">
         <div className="flex items-center gap-2 font-mono text-[11px] tracking-wider text-muted-foreground uppercase">
           <span className="text-brand">{article.topic.name}</span>
           <span aria-hidden>·</span>
           <span>{article.readingMinutes} min read</span>
         </div>
-        <h3 className="mt-4 text-2xl leading-tight font-semibold tracking-tight text-balance sm:text-3xl">
+        <h3 className="mt-4 text-2xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">
           <Link href={`/learn/${article.slug}`} className="after:absolute after:inset-0">
             {article.title}
           </Link>
         </h3>
-        <p className="mt-3 text-pretty text-muted-foreground">{article.summary}</p>
-        <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium group-hover:text-brand">
+        <p className="mt-4 max-w-2xl text-pretty text-muted-foreground">{article.summary}</p>
+        {article.tags.length ? (
+          <div className="mt-5 flex flex-wrap gap-1.5">
+            {article.tags.slice(0, 4).map((t) => (
+              <span key={t} className="rounded-full bg-muted px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        <span className="mt-auto inline-flex items-center gap-1 pt-8 text-sm font-medium group-hover:text-brand">
           Read the article <ArrowUpRight className="size-4" />
         </span>
       </div>
@@ -255,42 +250,60 @@ function SpotlightCard({ article }: { article: ArticleSummary }) {
   );
 }
 
-/** Hidden entirely until at least one roadmap is published. */
-async function RoadmapHighlights() {
-  await connection();
-  const roadmaps = (await getPublishedRoadmaps(3)).slice(0, 3);
-  if (roadmaps.length === 0) return null;
+function CompactArticle({ article, expanded = false }: { article: ArticleSummary; expanded?: boolean }) {
   return (
-    <Container className="pt-20">
-      <div className="flex flex-wrap items-end justify-between gap-6">
-        <div className="max-w-2xl space-y-3">
-          <Eyebrow>Roadmaps</Eyebrow>
-          <h2 className="text-3xl font-semibold tracking-tight">Know what to learn next</h2>
-          <p className="text-muted-foreground">Step-by-step paths from fundamentals to production.</p>
-        </div>
-        <Link href="/roadmaps" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-          All roadmaps <ArrowRight className="size-3.5" />
+    <li className={cn("group relative px-5 py-4 hover:bg-muted/40", expanded && "py-6")}>
+      <p className="font-mono text-[11px] tracking-wider text-muted-foreground uppercase">
+        <span className="text-brand">{article.topic.name}</span> · {article.readingMinutes} min read
+      </p>
+      <h4 className={cn("mt-1.5 leading-snug font-medium text-balance group-hover:text-brand", expanded && "text-xl font-semibold tracking-tight")}>
+        <Link href={`/learn/${article.slug}`} className="after:absolute after:inset-0">
+          {article.title}
         </Link>
-      </div>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {roadmaps.map((r) => (
-          <RoadmapCard key={r.id} roadmap={r} />
-        ))}
-      </div>
-    </Container>
+      </h4>
+      <p className={cn("mt-1 text-sm text-muted-foreground", expanded ? "mt-3 line-clamp-6 text-base" : "line-clamp-2")}>{article.summary}</p>
+      {expanded && article.tags.length ? (
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {article.tags.slice(0, 4).map((t) => (
+            <span key={t} className="rounded-full bg-muted px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+              {t}
+            </span>
+          ))}
+        </div>
+      ) : null}
+    </li>
   );
 }
 
 function LearnSkeleton() {
   return (
-    <div className="mt-10 space-y-6">
-      <div className="h-56 animate-pulse rounded-2xl border bg-muted/50" />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 3 }, (_, i) => (
-          <div key={i} className="h-52 animate-pulse rounded-xl border bg-muted/50" />
+    <div className="mt-10 grid gap-6 lg:grid-cols-[3fr_2fr]">
+      <div className="h-80 animate-pulse rounded-2xl border bg-muted/50" />
+      <div className="h-80 animate-pulse rounded-2xl border bg-muted/50" />
+    </div>
+  );
+}
+
+/** Hidden entirely until at least one roadmap is published. */
+async function RoadmapHighlights() {
+  await connection();
+  const roadmaps = await getPublishedRoadmaps(2);
+  if (roadmaps.length === 0) return null;
+  return (
+    <Container className="pt-20">
+      <SectionHeading
+        eyebrow="Roadmaps"
+        title="Know what to learn next"
+        description="Step-by-step paths from fundamentals to production."
+        href="/roadmaps"
+        linkLabel="All roadmaps"
+      />
+      <div className="mt-10 space-y-4">
+        {roadmaps.map((r) => (
+          <RoadmapRow key={r.id} roadmap={r} />
         ))}
       </div>
-    </div>
+    </Container>
   );
 }
 
@@ -299,11 +312,11 @@ async function TrendingLaunches() {
   const top = (await getLeaderboard())
     .flatMap((d) => d.projects)
     .sort((a, b) => b.voteCount - a.voteCount)
-    .slice(0, 5);
+    .slice(0, 6);
 
   if (top.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed p-8 text-center text-sm">
+      <div className="mt-8 rounded-xl border border-dashed p-8 text-center text-sm">
         <p className="text-muted-foreground">No launches yet this week.</p>
         <Link href="/launch" className={buttonVariants({ variant: "outline", size: "sm", className: "mt-4" })}>
           Be the first to launch
@@ -312,9 +325,9 @@ async function TrendingLaunches() {
     );
   }
   return (
-    <ol className="divide-y rounded-xl border">
+    <ol className={cn("mt-8 grid gap-3", top.length > 1 && "md:grid-cols-2")}>
       {top.map((p, i) => (
-        <li key={p.id} className="relative flex items-center gap-4 p-4 hover:bg-muted/50">
+        <li key={p.id} className="relative flex items-center gap-4 rounded-xl border bg-background p-4 transition-colors hover:border-foreground/25">
           <span className="w-4 font-mono text-xs text-muted-foreground">{i + 1}</span>
           <div className="min-w-0 flex-1">
             <Link href={`/p/${p.slug}`} className="font-medium after:absolute after:inset-0">

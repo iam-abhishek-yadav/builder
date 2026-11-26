@@ -46,7 +46,12 @@ const components: Components = {
   table({ children, ...props }) {
     return (
       <div className="not-prose my-6 overflow-x-auto rounded-lg border">
-        <table className="w-full text-sm [&_td]:border-t [&_td]:px-3 [&_td]:py-2 [&_th]:bg-muted/60 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-medium" {...props}>
+        <table
+          // Header rows whose cells are all empty (common in "| | |" Markdown tables) are hidden;
+          // borders go between rows so a header-less table has no doubled top line.
+          className="w-full text-sm [&_tbody_tr:not(:first-child)_td]:border-t [&_td]:px-3 [&_td]:py-2 [&_td]:align-top [&_th]:border-b [&_th]:bg-muted/60 [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:font-medium [&_thead:not(:has(th:not(:empty)))]:hidden"
+          {...props}
+        >
           {children}
         </table>
       </div>
@@ -59,7 +64,7 @@ export function Markdown({ children, className }: { children: string; className?
     <div
       className={cn(
         "prose prose-neutral max-w-none dark:prose-invert",
-        "prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight",
+        "prose-headings:scroll-mt-28 prose-headings:font-semibold prose-headings:tracking-tight",
         "prose-a:text-brand prose-a:underline-offset-4 prose-code:before:content-none prose-code:after:content-none",
         "prose-code:rounded prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:font-normal",
         "prose-pre:rounded-xl prose-pre:text-[0.85rem] [&_pre_code]:bg-transparent [&_pre_code]:p-0",

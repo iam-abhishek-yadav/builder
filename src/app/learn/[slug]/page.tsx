@@ -84,7 +84,8 @@ async function ArticleView({ params }: { params: Promise<{ slug: string }> }) {
         </div>
         {toc.length > 1 ? (
           <aside className="hidden lg:block">
-            <div className="sticky top-24">
+            {/* Long tables of contents scroll on their own instead of running off-screen. */}
+            <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain pr-2 [scrollbar-width:thin]">
               <TableOfContents items={toc} />
             </div>
           </aside>

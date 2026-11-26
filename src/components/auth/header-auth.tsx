@@ -51,7 +51,7 @@ function AuthSyncNotice({ signingIn }: { signingIn: boolean }) {
     <div
       role="status"
       aria-live="polite"
-      className="fixed top-16 left-1/2 z-50 flex -translate-x-1/2 animate-in items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm shadow-md fade-in slide-in-from-top-2"
+      className="fixed top-28 sm:top-16 left-1/2 z-50 flex -translate-x-1/2 animate-in items-center gap-2 rounded-full border bg-background px-4 py-2 text-sm shadow-md fade-in slide-in-from-top-2"
     >
       <Loader2 className="size-4 animate-spin text-muted-foreground" />
       {signingIn ? "Signing you in…" : "Signing you out…"}

@@ -90,7 +90,7 @@ export function RoadmapView({ stages, articles, roadmapId, doneKeys = [], server
               >
                 {tracking && signedIn && stageDone ? <Check className="size-3.5" /> : i + 1}
               </span>
-              <h2 id={stage.key} className="scroll-mt-24 text-xl font-semibold tracking-tight">
+              <h2 id={stage.key} className="scroll-mt-28 text-xl font-semibold tracking-tight">
                 {stage.title}
               </h2>
               {stage.description ? <p className="mt-1.5 max-w-2xl text-sm text-muted-foreground">{stage.description}</p> : null}

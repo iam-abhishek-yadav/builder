@@ -8,16 +8,23 @@ import { NavLinks, NavLinksStatic } from "@/components/nav-links";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
+function Nav({ className }: { className?: string }) {
+  return (
+    <nav className={className} aria-label="Main">
+      <Suspense fallback={<NavLinksStatic />}>
+        <NavLinks />
+      </Suspense>
+    </nav>
+  );
+}
+
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur-md">
       <Container className="flex h-14 items-center gap-6">
         <Logo />
-        <nav className="flex items-center gap-0.5" aria-label="Main">
-          <Suspense fallback={<NavLinksStatic />}>
-            <NavLinks />
-          </Suspense>
-        </nav>
+        {/* Desktop: nav inline. Mobile: nav gets its own row below so actions always fit. */}
+        <Nav className="hidden items-center gap-0.5 sm:flex" />
         <div className="ml-auto flex items-center gap-2">
           <Link href="/launch" className={buttonVariants({ size: "sm" })}>
             Launch
@@ -27,6 +34,9 @@ export function SiteHeader() {
             <HeaderAuthServer />
           </Suspense>
         </div>
+      </Container>
+      <Container className="-mt-1 flex h-10 items-center sm:hidden">
+        <Nav className="-ml-2.5 flex items-center gap-0.5" />
       </Container>
     </header>
   );

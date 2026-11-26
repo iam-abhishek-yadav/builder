@@ -130,7 +130,7 @@ export function RoadmapEditor({
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)] flex-col">
       <form ref={formRef} action={action} onChange={() => setDirty(true)} className="flex flex-1 flex-col">
-        <div className="sticky top-14 z-30 border-b bg-background/90 backdrop-blur">
+        <div className="sticky top-[5.75rem] sm:top-14 z-30 border-b bg-background/90 backdrop-blur">
           <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-4 py-2.5 sm:px-6">
             <Link href="/studio/roadmaps" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
               <ArrowLeft className="size-3.5" /> Roadmaps
