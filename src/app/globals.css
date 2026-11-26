@@ -135,6 +135,9 @@
   }
   html {
     @apply font-sans;
+    /* Always reserve the scrollbar's space so pages don't shift sideways when
+       moving between short (no scrollbar) and long pages, or while loading. */
+    scrollbar-gutter: stable;
   }
 }
 @layer utilities {

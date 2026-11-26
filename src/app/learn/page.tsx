@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { PenLine, Route } from "lucide-react";
+import { PenLine } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
+import { LearnTabs } from "@/components/learn-tabs";
 import { ArticleRow } from "@/components/learn/article-card";
 import { buttonVariants } from "@/components/ui/button";
 import { isAdmin } from "@/lib/admin";
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 export default function LearnPage({ searchParams }: PageProps<"/learn">) {
   return (
     <Container className="py-12">
-      <header className="flex flex-wrap items-end justify-between gap-6 border-b pb-8">
+      <LearnTabs active="/learn" />
+      <header className="mt-8 flex flex-wrap items-end justify-between gap-6 border-b pb-8">
         <div className="max-w-2xl space-y-2">
           <Eyebrow>Learn</Eyebrow>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Learn from real engineering</h1>
@@ -26,14 +28,9 @@ export default function LearnPage({ searchParams }: PageProps<"/learn">) {
             studies.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/roadmaps" className={buttonVariants({ variant: "outline" })}>
-            <Route /> Roadmaps
-          </Link>
-          <Suspense>
-            <StudioButton />
-          </Suspense>
-        </div>
+        <Suspense>
+          <StudioButton />
+        </Suspense>
       </header>
       <Suspense fallback={<ListSkeleton />}>
         <ArticleList searchParams={searchParams} />

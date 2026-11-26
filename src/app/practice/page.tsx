@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
+import { LearnTabs } from "@/components/learn-tabs";
 import { getProblemStates, getPublishedSheets } from "@/lib/practice/queries";
 import { getCurrentUser } from "@/lib/session";
 
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
 export default function PracticePage() {
   return (
     <Container className="py-12">
-      <header className="border-b pb-8">
+      <LearnTabs active="/practice" />
+      <header className="mt-8 border-b pb-8">
         <div className="max-w-2xl space-y-2">
-          <Eyebrow>Practice</Eyebrow>
+          <Eyebrow>Learn</Eyebrow>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">DSA sheets</h1>
           <p className="text-muted-foreground">
             Curated problem lists for interview prep. Solve them on LeetCode, tick them off here, and star the ones to
