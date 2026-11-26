@@ -3,6 +3,7 @@ import { and, desc, eq, gte, inArray, sql } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/db";
 import { bookmark, comment, project, user, vote } from "@/db/schema";
+import { profileTags } from "@/lib/profiles/tags";
 import { tags } from "./tags";
 
 const LEADERBOARD_DAYS = 7;
@@ -70,7 +71,7 @@ function dayLabel(day: string) {
 
 export async function getProjectBySlug(slug: string) {
   "use cache";
-  cacheTag(tags.projects, tags.project(slug));
+  cacheTag(tags.projects, tags.project(slug), profileTags.profiles);
   cacheLife("minutes");
 
   const [row] = await db
@@ -79,7 +80,7 @@ export async function getProjectBySlug(slug: string) {
       description: project.description,
       websiteUrl: project.websiteUrl,
       repoUrl: project.repoUrl,
-      maker: { id: user.id, name: user.name, image: user.image, username: user.username },
+      maker: { id: user.id, name: user.name, image: user.image, handle: user.handle, publicId: user.publicId },
     })
     .from(project)
     .innerJoin(user, eq(user.id, project.makerId))
@@ -90,7 +91,7 @@ export async function getProjectBySlug(slug: string) {
 
 export async function getComments(projectId: string) {
   "use cache";
-  cacheTag(tags.comments(projectId));
+  cacheTag(tags.comments(projectId), profileTags.profiles);
   cacheLife("minutes");
 
   return db
@@ -98,7 +99,7 @@ export async function getComments(projectId: string) {
       id: comment.id,
       body: comment.body,
       createdAt: comment.createdAt,
-      author: { id: user.id, name: user.name, image: user.image, username: user.username },
+      author: { id: user.id, name: user.name, image: user.image, handle: user.handle, publicId: user.publicId },
     })
     .from(comment)
     .innerJoin(user, eq(user.id, comment.userId))
@@ -144,4 +145,18 @@ export async function getBookmarkedProjects(userId: string) {
     .innerJoin(project, eq(project.id, bookmark.projectId))
     .where(eq(bookmark.userId, userId))
     .orderBy(desc(bookmark.createdAt));
+}
+
+/** Every project a builder launched, newest first (for their profile). */
+export async function getProjectsByMaker(makerId: string) {
+  "use cache";
+  cacheTag(tags.projects);
+  cacheLife("minutes");
+
+  return db
+    .select(projectSummaryFields)
+    .from(project)
+    .where(eq(project.makerId, makerId))
+    .orderBy(desc(project.launchedAt))
+    .limit(100);
 }

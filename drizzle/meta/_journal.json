@@ -43,6 +43,13 @@
       "when": 1795681397702,
       "tag": "0005_roadmaps",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795702027506,
+      "tag": "0006_profiles",
+      "breakpoints": true
     }
   ]
 }

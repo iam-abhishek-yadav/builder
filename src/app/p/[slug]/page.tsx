@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SignInButton } from "@clerk/nextjs";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -11,6 +12,7 @@ import { BookmarkButton } from "@/components/launchpad/bookmark-button";
 import { CommentForm } from "@/components/launchpad/comment-form";
 import { UpvoteButton } from "@/components/launchpad/upvote-button";
 import { UserAvatar } from "@/components/user-avatar";
+import { profilePath } from "@/lib/profiles/handle";
 import { getComments, getProjectBySlug, getViewerState } from "@/lib/launchpad/queries";
 import { getCurrentUser } from "@/lib/session";
 
@@ -92,9 +94,14 @@ async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) 
       <p className="whitespace-pre-line leading-7">{project.description}</p>
 
       <div className="flex items-center gap-3 text-sm text-muted-foreground">
-        <UserAvatar name={project.maker.name} image={project.maker.image} className="size-6" />
+        <Link href={profilePath(project.maker)} aria-hidden tabIndex={-1}>
+          <UserAvatar name={project.maker.name} image={project.maker.image} className="size-6" />
+        </Link>
         <span>
-          Launched by <span className="font-medium text-foreground">{project.maker.name}</span>
+          Launched by{" "}
+          <Link href={profilePath(project.maker)} className="font-medium text-foreground hover:text-brand">
+            {project.maker.name}
+          </Link>
           {" · "}
           {dateFormat.format(project.launchedAt)}
         </span>
@@ -134,10 +141,14 @@ async function Comments({ projectId }: { projectId: string }) {
     <ul className="space-y-5">
       {comments.map((c) => (
         <li key={c.id} className="flex gap-3">
-          <UserAvatar name={c.author.name} image={c.author.image} />
+          <Link href={profilePath(c.author)} aria-hidden tabIndex={-1} className="shrink-0">
+            <UserAvatar name={c.author.name} image={c.author.image} />
+          </Link>
           <div className="min-w-0 flex-1">
             <div className="text-sm">
-              <span className="font-medium">{c.author.name}</span>{" "}
+              <Link href={profilePath(c.author)} className="font-medium hover:text-brand">
+                {c.author.name}
+              </Link>{" "}
               <span className="text-muted-foreground">{dateFormat.format(c.createdAt)}</span>
             </div>
             <p className="mt-0.5 whitespace-pre-line text-sm leading-6">{c.body}</p>

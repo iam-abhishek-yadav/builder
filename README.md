@@ -39,7 +39,8 @@ src/
   proxy.ts             Clerk middleware; protects /launch, /bookmarks, /studio
   app/                 / (public landing), /launchpad, /launch, /p/[slug], /bookmarks,
                        /learn, /learn/[slug], /roadmaps, /roadmaps/[slug],
-                       /studio (admin: articles, roadmaps, topics), /sign-in, /sign-up
+                       /studio (admin: articles, roadmaps, topics), /u/[key] (profiles),
+                       /settings/profile, /me, /api/webhooks/clerk, /sign-in, /sign-up
   components/launchpad project row, upvote/bookmark buttons, forms
   components/learn     Markdown renderer (GFM, highlight.js, Mermaid), TOC, editor, cards
   lib/learn            article queries (cached), actions (admin-only), validation
@@ -60,4 +61,5 @@ src/
 - Articles belong to a **topic** (Studio → Topics). Topics are rows in Postgres, so adding one needs no code change. Featured articles are shown first on the landing page.
 - Articles are Markdown stored in Postgres. Raw HTML is not rendered. ` ```mermaid ` blocks render as diagrams. Use `##` and `###` for sections; they feed the table of contents.
 - **Roadmaps** are edited in Studio with a visual editor (stages, steps, resources, Learn links) or as a text outline. Both edit the same outline: `## Stage`, `- Step :: summary`, `- (optional) …`, `- (alt) …`, with indented `[label](url)`, `learn: article-slug` or detail lines. The syntax is in `lib/roadmaps/outline.ts`. Progress is stored per step key (stage slug/step slug), so renaming a step resets readers' progress on it.
+- **Profiles** live at `/u/<handle>`, or `/u/<publicId>` (an 8-character random id) until a handle is chosen; the id URL then redirects to the handle. Launches and skills come from shipped work. Roadmap progress and open-to-work are opt-in. The Clerk webhook (`/api/webhooks/clerk`, events `user.updated` and `user.deleted`, secret in `CLERK_WEBHOOK_SIGNING_SECRET`) keeps names and avatars in sync and removes deleted users.
 - The leaderboard groups launches by **UTC** day.

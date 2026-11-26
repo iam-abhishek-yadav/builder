@@ -5,8 +5,10 @@ import { HeaderAuth } from "@/components/auth/header-auth";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
 import { NavLinks, NavLinksStatic } from "@/components/nav-links";
+import { ProfileNudge } from "@/components/profiles/profile-nudge";
 import { buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getCurrentUser } from "@/lib/session";
 
 function Nav({ className }: { className?: string }) {
   return (
@@ -38,8 +40,19 @@ export function SiteHeader() {
       <Container className="-mt-1 flex h-10 items-center sm:hidden">
         <Nav className="-ml-2.5 flex items-center gap-0.5" />
       </Container>
+      <Suspense>
+        <NudgeServer />
+      </Suspense>
     </header>
   );
+}
+
+/** Shows the "pick a username" nudge to signed-in builders who haven't chosen one. */
+async function NudgeServer() {
+  const { userId } = await auth();
+  if (!userId) return null;
+  const me = await getCurrentUser();
+  return me && !me.handle ? <ProfileNudge /> : null;
 }
 
 async function HeaderAuthServer() {

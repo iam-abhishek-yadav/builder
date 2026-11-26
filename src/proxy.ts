@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 // Pages that need a signed-in user. Server Actions still check auth themselves.
 // Note: "/launch" must not be a prefix pattern, or it would also match "/launchpad".
-const isProtectedRoute = createRouteMatcher(["/launch", "/launch/(.*)", "/bookmarks(.*)", "/studio(.*)"]);
+const isProtectedRoute = createRouteMatcher(["/launch", "/launch/(.*)", "/bookmarks(.*)", "/studio(.*)", "/settings(.*)", "/me"]);
 
 export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) await auth.protect();

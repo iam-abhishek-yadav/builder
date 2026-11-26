@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, UserButton, useAuth } from "@clerk/nextjs";
-import { Bookmark, Loader2 } from "lucide-react";
+import { Bookmark, Loader2, Settings, UserRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -22,6 +22,8 @@ export function HeaderAuth({ serverSignedIn }: { serverSignedIn: boolean }) {
         <div className="flex size-8 items-center justify-center rounded-full bg-muted">
           <UserButton>
             <UserButton.MenuItems>
+              <UserButton.Link label="Your profile" labelIcon={<UserRound className="size-4" />} href="/me" />
+              <UserButton.Link label="Profile settings" labelIcon={<Settings className="size-4" />} href="/settings/profile" />
               <UserButton.Link label="Bookmarks" labelIcon={<Bookmark className="size-4" />} href="/bookmarks" />
             </UserButton.MenuItems>
           </UserButton>
