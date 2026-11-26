@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 const items = [
   { href: "/studio", label: "Articles", key: "articles" },
   { href: "/studio/roadmaps", label: "Roadmaps", key: "roadmaps" },
+  { href: "/studio/sheets", label: "Sheets", key: "sheets" },
   { href: "/studio/topics", label: "Topics", key: "topics" },
 ] as const;
 

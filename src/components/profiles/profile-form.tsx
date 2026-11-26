@@ -23,6 +23,7 @@ type Initial = {
   workLocations: string[];
   workCity: string;
   showRoadmapProgress: boolean;
+  showPracticeProgress: boolean;
 };
 
 const MAX_LINKS = 5;
@@ -171,6 +172,7 @@ export function ProfileForm({ initial }: { initial: Initial }) {
           defaultChecked={initial.showRoadmapProgress}
           label="Show my roadmap progress and finished-roadmap badges"
         />
+        <Toggle name="showPracticeProgress" defaultChecked={initial.showPracticeProgress} label="Show my DSA sheet progress (problems solved)" />
       </Section>
 
       <div className="sticky bottom-0 -mx-4 flex items-center gap-4 border-t bg-background/95 px-4 py-4 backdrop-blur sm:mx-0 sm:px-0">

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, ChevronUp, Rocket, Route } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, ChevronUp, Code2, Rocket, Route } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
 import { RoadmapRow } from "@/components/roadmaps/roadmap-card";
 import { buttonVariants } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export default function LandingPage() {
 
       <Container className="pt-20">
         <Eyebrow>What&apos;s here</Eyebrow>
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Pillar
             icon={BookOpen}
             title="Learn"
@@ -54,6 +54,13 @@ export default function LandingPage() {
             body="Step-by-step paths that tell you what to learn next, with progress you can tick off as you go."
             href="/roadmaps"
             cta="Pick a roadmap"
+          />
+          <Pillar
+            icon={Code2}
+            title="Practice"
+            body="Curated DSA sheets like Blind 75. Tick off what you've solved and star problems to revisit."
+            href="/practice"
+            cta="Start practising"
           />
           <Pillar
             icon={Rocket}

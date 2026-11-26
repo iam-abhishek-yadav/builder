@@ -26,6 +26,7 @@ const profileSchema = z.object({
   workLocations: z.array(z.enum(WORK_LOCATIONS)),
   workCity: z.string().trim().max(60, "At most 60 characters"),
   showRoadmapProgress: z.boolean(),
+  showPracticeProgress: z.boolean(),
 });
 
 export type ProfileFormState = {
@@ -51,6 +52,7 @@ export async function saveProfile(_prev: ProfileFormState, formData: FormData): 
     workLocations: formData.getAll("workLocations").map(String),
     workCity: String(formData.get("workCity") ?? ""),
     showRoadmapProgress: formData.get("showRoadmapProgress") === "on",
+    showPracticeProgress: formData.get("showPracticeProgress") === "on",
   });
   if (!parsed.success) {
     return { error: "Fix the highlighted fields.", fieldErrors: z.flattenError(parsed.error).fieldErrors };
@@ -84,6 +86,7 @@ export async function saveProfile(_prev: ProfileFormState, formData: FormData): 
         workLocations: data.workLocations,
         workCity: data.workCity || null,
         showRoadmapProgress: data.showRoadmapProgress,
+        showPracticeProgress: data.showPracticeProgress,
       })
       .where(eq(user.id, me.id));
   } catch (e) {

@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { Suspense } from "react";
-import { Award, Briefcase, ChevronUp, Link2, MapPin, MessageSquare, Pencil, Rocket } from "lucide-react";
+import { Award, Briefcase, ChevronUp, Code2, Link2, MapPin, MessageSquare, Pencil, Rocket } from "lucide-react";
 import { Container } from "@/components/container";
 import { buttonVariants } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
 import { profilePath } from "@/lib/profiles/handle";
 import { getProfileByKey, getProfileRoadmaps, getProfileWork, type PublicProfile } from "@/lib/profiles/queries";
+import { getSheetProgress } from "@/lib/practice/queries";
 import { getCurrentUser } from "@/lib/session";
 import { cn } from "@/lib/utils";
 
@@ -44,10 +45,11 @@ async function Profile({ params }: { params: Promise<{ key: string }> }) {
   const canonical = profilePath(profile);
   if (`/u/${key}` !== canonical) permanentRedirect(canonical);
 
-  const [viewer, work, roadmaps] = await Promise.all([
+  const [viewer, work, roadmaps, practice] = await Promise.all([
     getCurrentUser(),
     getProfileWork(profile.id),
     profile.showRoadmapProgress ? getProfileRoadmaps(profile.id) : Promise.resolve([]),
+    profile.showPracticeProgress ? getSheetProgress(profile.id).then((l) => l.filter((x) => x.solved > 0)) : Promise.resolve([]),
   ]);
   const isOwner = viewer?.id === profile.id;
   const finished = roadmaps.filter((r) => r.finished);
@@ -165,10 +167,57 @@ async function Profile({ params }: { params: Promise<{ key: string }> }) {
                 />
               )}
             </section>
-          ) : isOwner ? (
+          ) : null}
+
+          {profile.showPracticeProgress ? (
+            <section aria-labelledby="practice">
+              <SectionTitle id="practice" icon={Code2} title="DSA practice" />
+              {practice.length ? (
+                <ul className="mt-4 space-y-3">
+                  {practice.map((s) => (
+                    <li key={s.slug}>
+                      <Link href={`/practice/${s.slug}`} className="group block rounded-xl border p-4 transition-colors hover:border-foreground/25">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="font-medium group-hover:text-brand">{s.title}</span>
+                          {s.solved === s.total ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-xs font-medium text-brand-foreground">
+                              <Award className="size-3.5" /> Complete
+                            </span>
+                          ) : (
+                            <span className="font-mono text-xs text-muted-foreground tabular-nums">
+                              {s.solved}/{s.total}
+                            </span>
+                          )}
+                        </div>
+                        <div
+                          className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted"
+                          role="progressbar"
+                          aria-valuenow={s.percent}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={`${s.title} progress`}
+                        >
+                          <div className="h-full rounded-full bg-brand" style={{ width: `${s.percent}%` }} />
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Empty
+                  text={isOwner ? "Solve problems on a DSA sheet and your progress shows up here." : "No problems solved yet."}
+                  action={isOwner ? { href: "/practice", label: "Open DSA sheets" } : undefined}
+                />
+              )}
+            </section>
+          ) : null}
+
+          {isOwner && (!profile.showRoadmapProgress || !profile.showPracticeProgress) ? (
             <section className="rounded-xl border border-dashed p-5 text-sm">
-              <p className="font-medium">Show your roadmap progress?</p>
-              <p className="mt-1 text-muted-foreground">It&apos;s hidden by default. Turn it on to show progress and finished-roadmap badges.</p>
+              <p className="font-medium">Show your progress?</p>
+              <p className="mt-1 text-muted-foreground">
+                Roadmap and DSA progress are hidden by default. Turn them on in settings to show them here.
+              </p>
               <Link href="/settings/profile#visibility" className={buttonVariants({ variant: "outline", size: "sm", className: "mt-3" })}>
                 Profile settings
               </Link>

@@ -15,6 +15,7 @@ const columns = [
     links: [
       { href: "/learn", label: "Articles" },
       { href: "/roadmaps", label: "Roadmaps" },
+      { href: "/practice", label: "DSA sheets" },
     ],
   },
 ];

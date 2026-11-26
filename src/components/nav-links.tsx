@@ -8,6 +8,7 @@ export const navItems = [
   { href: "/launchpad", label: "Launchpad" },
   { href: "/learn", label: "Learn" },
   { href: "/roadmaps", label: "Roadmaps" },
+  { href: "/practice", label: "Practice" },
 ] as const;
 
 function linkClass(active: boolean) {

@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
           workLocations: [],
           workCity: null,
           showRoadmapProgress: false,
+          showPracticeProgress: false,
         })
         .where(eq(user.id, id));
     }

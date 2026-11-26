@@ -31,6 +31,8 @@ export const user = pgTable("user", {
 
   /** Opt-in: show roadmap progress and badges on the public profile. */
   showRoadmapProgress: boolean().notNull().default(false),
+  /** Opt-in: show DSA sheet progress on the public profile. */
+  showPracticeProgress: boolean().notNull().default(false),
 
   createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp({ withTimezone: true })

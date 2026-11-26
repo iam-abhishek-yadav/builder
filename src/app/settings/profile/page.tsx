@@ -44,6 +44,7 @@ async function Form() {
         workLocations: profile.workLocations,
         workCity: profile.workCity ?? "",
         showRoadmapProgress: profile.showRoadmapProgress,
+        showPracticeProgress: profile.showPracticeProgress,
       }}
     />
   );

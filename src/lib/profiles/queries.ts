@@ -23,6 +23,7 @@ const publicProfileFields = {
   workLocations: user.workLocations,
   workCity: user.workCity,
   showRoadmapProgress: user.showRoadmapProgress,
+  showPracticeProgress: user.showPracticeProgress,
   createdAt: user.createdAt,
 };
 
