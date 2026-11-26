@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export const navItems = [
   { href: "/launchpad", label: "Launchpad" },
   { href: "/learn", label: "Learn" },
+  { href: "/roadmaps", label: "Roadmaps" },
 ] as const;
 
 function linkClass(active: boolean) {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { PenLine } from "lucide-react";
+import { PenLine, Route } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
 import { ArticleCard, ArticleGridSkeleton } from "@/components/learn/article-card";
 import { buttonVariants } from "@/components/ui/button";
@@ -26,9 +26,14 @@ export default function LearnPage({ searchParams }: PageProps<"/learn">) {
             studies.
           </p>
         </div>
-        <Suspense>
-          <StudioButton />
-        </Suspense>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/roadmaps" className={buttonVariants({ variant: "outline" })}>
+            <Route /> Roadmaps
+          </Link>
+          <Suspense>
+            <StudioButton />
+          </Suspense>
+        </div>
       </header>
       <Suspense fallback={<ArticleGridSkeleton count={6} />}>
         <ArticleList searchParams={searchParams} />

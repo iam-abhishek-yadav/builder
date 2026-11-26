@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { ArrowRight, ArrowUpRight, BookOpen, ChevronUp, Rocket } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, ChevronUp, Rocket, Route } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
 import { ArticleCard } from "@/components/learn/article-card";
+import { RoadmapCard } from "@/components/roadmaps/roadmap-card";
 import { buttonVariants } from "@/components/ui/button";
 import { getLeaderboard } from "@/lib/launchpad/queries";
 import { getHighlightedArticles, getPublicTopics, type ArticleSummary } from "@/lib/learn/queries";
+import { getPublishedRoadmaps } from "@/lib/roadmaps/queries";
 import { cn } from "@/lib/utils";
 
 // Public landing page: no sign-in required. Static parts prerender into the shell;
@@ -37,6 +39,10 @@ export default function LandingPage() {
         </Container>
       </section>
 
+      <Suspense>
+        <RoadmapHighlights />
+      </Suspense>
+
       <Container className="grid gap-16 py-20 lg:grid-cols-[2fr_3fr]">
         <section className="space-y-5">
           <Eyebrow>What&apos;s here</Eyebrow>
@@ -54,6 +60,13 @@ export default function LandingPage() {
               body="Fundamentals and production case studies, written for engineers who want the details."
               href="/learn"
               cta="Browse articles"
+            />
+            <Pillar
+              icon={Route}
+              title="Roadmaps"
+              body="Step-by-step paths that tell you what to learn next, with progress you can tick off as you go."
+              href="/roadmaps"
+              cta="Pick a roadmap"
             />
           </div>
         </section>
@@ -239,6 +252,32 @@ function SpotlightCard({ article }: { article: ArticleSummary }) {
         </span>
       </div>
     </article>
+  );
+}
+
+/** Hidden entirely until at least one roadmap is published. */
+async function RoadmapHighlights() {
+  await connection();
+  const roadmaps = (await getPublishedRoadmaps(3)).slice(0, 3);
+  if (roadmaps.length === 0) return null;
+  return (
+    <Container className="pt-20">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <div className="max-w-2xl space-y-3">
+          <Eyebrow>Roadmaps</Eyebrow>
+          <h2 className="text-3xl font-semibold tracking-tight">Know what to learn next</h2>
+          <p className="text-muted-foreground">Step-by-step paths from fundamentals to production.</p>
+        </div>
+        <Link href="/roadmaps" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+          All roadmaps <ArrowRight className="size-3.5" />
+        </Link>
+      </div>
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {roadmaps.map((r) => (
+          <RoadmapCard key={r.id} roadmap={r} />
+        ))}
+      </div>
+    </Container>
   );
 }
 

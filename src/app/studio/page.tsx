@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Plus, Tags } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
+import { StudioNav } from "@/components/studio-nav";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { requireAdmin } from "@/lib/admin";
@@ -19,10 +20,8 @@ export default function StudioPage() {
           <h1 className="text-3xl font-semibold tracking-tight">Articles</h1>
           <p className="text-muted-foreground">Write, edit and publish Learn articles. Only admins can see this page.</p>
         </div>
-        <div className="flex gap-2">
-          <Link href="/studio/topics" className={buttonVariants({ variant: "outline" })}>
-            <Tags /> Topics
-          </Link>
+        <div className="flex flex-wrap items-center gap-3">
+          <StudioNav active="articles" />
           <Link href="/studio/new" className={buttonVariants()}>
             <Plus /> New article
           </Link>

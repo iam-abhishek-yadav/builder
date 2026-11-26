@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowLeft } from "lucide-react";
 import { Container, Eyebrow } from "@/components/container";
+import { StudioNav } from "@/components/studio-nav";
 import { TopicForm } from "@/components/learn/topic-form";
 import { requireAdmin } from "@/lib/admin";
 import { listAllTopics } from "@/lib/learn/queries";
@@ -12,9 +11,7 @@ export const metadata: Metadata = { title: "Topics", robots: { index: false } };
 export default function TopicsPage() {
   return (
     <Container narrow className="py-12">
-      <Link href="/studio" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="size-3.5" /> Studio
-      </Link>
+      <StudioNav active="topics" />
       <header className="mt-6 space-y-2 border-b pb-8">
         <Eyebrow>Studio</Eyebrow>
         <h1 className="text-3xl font-semibold tracking-tight">Topics</h1>
