@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Bookmarks" };
 
 export default function BookmarksPage() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 space-y-6">
       <h1 className="text-2xl font-semibold tracking-tight">Bookmarks</h1>
       <Suspense fallback={<ProjectListSkeleton rows={3} />}>
         <BookmarkList />

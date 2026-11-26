@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { shadcn } from "@clerk/ui/themes";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
@@ -17,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: { default: "Builder One Stop", template: "%s · Builder One Stop" },
-  description: "Launch what you build. Get feedback from other builders.",
+  description:
+    "A home for engineers who ship: launch what you build and learn from in-depth engineering write-ups.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -29,7 +31,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <ClerkProvider appearance={{ theme: shadcn }}>
           <SiteHeader />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-8">{children}</main>
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
         </ClerkProvider>
       </body>
     </html>

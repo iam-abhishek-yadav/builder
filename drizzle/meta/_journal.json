@@ -8,6 +8,34 @@
       "when": 1795676717375,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795678434714,
+      "tag": "0001_learn_articles",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795680402032,
+      "tag": "0002_learn_topics_add",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795680409529,
+      "tag": "0003_learn_topics_backfill",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795680415763,
+      "tag": "0004_learn_topics_finalize",
+      "breakpoints": true
     }
   ]
 }

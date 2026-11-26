@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Launch a project" };
 
 export default function LaunchPage() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 space-y-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">Launch a project</h1>
         <p className="text-muted-foreground">

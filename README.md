@@ -36,9 +36,12 @@ See `.env.example` for every variable.
 
 ```
 src/
-  proxy.ts             Clerk middleware; protects /launch and /bookmarks
-  app/                 routes: / (leaderboard), /launch, /p/[slug], /bookmarks, /sign-in, /sign-up
+  proxy.ts             Clerk middleware; protects /launch, /bookmarks, /studio
+  app/                 / (public landing), /launchpad, /launch, /p/[slug], /bookmarks,
+                       /learn, /learn/[slug], /studio (admin: articles, topics), /sign-in, /sign-up
   components/launchpad project row, upvote/bookmark buttons, forms
+  components/learn     Markdown renderer (GFM, highlight.js, Mermaid), TOC, editor, cards
+  lib/learn            article queries (cached), actions (admin-only), validation
   components/ui        shadcn components
   db/index.ts          Drizzle on a pg Pool with @vercel/functions attachDatabasePool
   db/schema            users.ts (local copy of Clerk users), launchpad.ts
@@ -51,4 +54,7 @@ src/
 - **Identity is Clerk.** `user.id` is the Clerk user ID. The local row is created the first time a user is seen, so app tables can reference it. A Clerk webhook will be needed later to sync profile edits and deletions.
 - **Cache Components is on.** Anything that reads auth, params, or searchParams renders inside `<Suspense>`. Reads are `"use cache"` functions tagged via `lib/launchpad/tags.ts`, and Server Actions call `updateTag` after writing.
 - Server Actions re-check auth themselves. `proxy.ts` only guards page navigation.
+- **Admins** have `publicMetadata.role = "admin"` in Clerk. Only admins can open `/studio` and write articles. Make someone an admin in the Clerk Dashboard (Users → user → Metadata).
+- Articles belong to a **topic** (Studio → Topics). Topics are rows in Postgres, so adding one needs no code change. Featured articles are shown first on the landing page.
+- Articles are Markdown stored in Postgres. Raw HTML is not rendered. ` ```mermaid ` blocks render as diagrams. Use `##` and `###` for sections; they feed the table of contents.
 - The leaderboard groups launches by **UTC** day.

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps<"/p/[slug]">): Prom
 
 export default function ProjectPage({ params }: PageProps<"/p/[slug]">) {
   return (
-    <Suspense fallback={<div className="h-80 animate-pulse rounded-xl bg-muted" />}>
+    <Suspense fallback={<div className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6"><div className="h-80 animate-pulse rounded-xl bg-muted" /></div>}>
       <ProjectDetail params={params} />
     </Suspense>
   );
@@ -41,7 +41,7 @@ async function ProjectDetail({ params }: { params: Promise<{ slug: string }> }) 
     : { voted: [], bookmarked: [] };
 
   return (
-    <article className="space-y-8">
+    <article className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 space-y-8">
       <header className="flex items-start gap-4">
         <div className="min-w-0 flex-1 space-y-2">
           <h1 className="text-3xl font-semibold tracking-tight">{project.name}</h1>
